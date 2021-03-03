@@ -1,0 +1,9 @@
+
+target/test-classes/.netbeans_automatic_build
+target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+target/IDSCM-1.0/WEB-INF/classes/com/upc/idscm/JAXRSConfiguration.class
+target/IDSCM-1.0/WEB-INF/classes/com/upc/idscm/resources/JavaEE8Resource.class
+target/IDSCM-1.0.war
+target/classes/com/upc/idscm/resources/JavaEE8Resource.class
+target/classes/com/upc/idscm/JAXRSConfiguration.class
+nb-configuration.xml
