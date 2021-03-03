@@ -15,9 +15,15 @@
     <body>
         <form method="post" action="#">
             <!-- NOMBRE -->
-            <input type="text"/> 
+            <div class="form-group">
+                <label for="input-name" for="exampleInputEmail1">Nombre</label>
+                <input id="input-name" class="form-control" type="text"/> 
+            </div>
             <!-- APELLIDO -->
-            <input type="text"/> 
+            <div class="form-group">
+                <label for="input-surname" for="exampleInputEmail1">Apellido</label>
+                <input id="input-surname" class="form-control" type="text"/> 
+            </div
             <!-- EMAIL -->
             <input type="text"/> 
             <!-- USERNAME -->
