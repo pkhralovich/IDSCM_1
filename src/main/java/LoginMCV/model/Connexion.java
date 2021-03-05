@@ -10,7 +10,6 @@ package LoginMCV.model;
  * @author CristianMatas
  */
 
-import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -29,13 +28,18 @@ public class Connexion {
         public Connexion() {
             try {
                 Class.forName(CLASSNAME);
-                con = DriverManager.gerConnection(URL, USERNAME, PASSWORD);
+                con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             } catch (ClassNotFoundException e) {
                 System.out.println("Error");
             } catch (SQLException e) {
                 System.out.println("Error");
             }
             
+        }
+        
+        //TEST PARA VER SI CONECTA
+        public static void main(String[] args){
+            Connexion con = new Connexion();
         }
     
 }
