@@ -21,7 +21,7 @@ import java.sql.SQLException;
 
 
 public class PushData extends Connexion{
-    public String Add(String name, String surn, String email, String uname, String pwd) {
+    public String Add(String name, String surn, String email, String uname, String pwd) throws SQLException {
         int i = 0;
         if (uname != null) {
             Statement st = con.createStatement();
@@ -29,7 +29,7 @@ public class PushData extends Connexion{
             PreparedStatement ps = null;
             try {
                 if (con != null) {
-                    String sql = "INSERT INTO user(id, name, surname, email, username, password) VALUES(default,?,?,?,?,?)";
+                    String sql = "INSERT INTO users(id, name, surname, email, username, password) VALUES(default,?,?,?,?,?)";
                     ps = con.prepareStatement(sql);
                     ps.setString(1, name);
                     ps.setString(2, surn);
