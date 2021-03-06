@@ -19,14 +19,12 @@ public class Consultas extends Connexion{
     {
         Statement st = con.createStatement();
         ResultSet rs = null;
-        String Consulta = "Select * from users";
+        String Consulta = "Select username, password from users WHERE username = '" + user + "'";
         rs = st.executeQuery(Consulta);
         
-        while(rs.next()) {
-            //miro si la combinación username y pwd es correcta segun mi DB
-            if(user.equals(rs.getString("username")) && pass.equals((rs.getString("password")))) 
-                return true;
-        }
+        //miro si la combinación username y pwd es correcta segun mi DB
+        if(user.equals(rs.getString("username")) && pass.equals((rs.getString("password")))) 
+            return true;
         
         return false;
     }
@@ -36,7 +34,7 @@ public class Consultas extends Connexion{
     public static void main(String[] args) {
         try {
             Consultas con = new Consultas();
-            System.out.println(con.Authentication("username", "password"));
+            System.out.println(con.Authentication("cmatas", "prueba123"));
         } catch (Exception e) {
             //TODO: Tratar excepcion
         }

@@ -21,7 +21,7 @@ public class Connexion {
     public static final String PORT = "3306";
     public static final String DATABASE = "idscm";
     public static final String CLASSNAME = "com.mysql.jdbc.Driver";
-    public static final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + "DATABASE";
+    public static final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE;
     
     public java.sql.Connection con;
     
