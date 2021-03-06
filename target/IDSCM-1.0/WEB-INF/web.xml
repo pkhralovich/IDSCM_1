@@ -10,6 +10,6 @@
     </session-config>
     
     <welcome-file-list>
-        <welcome-file>newjsp.jsp</welcome-file>
+        <welcome-file>./ISDCM/login.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

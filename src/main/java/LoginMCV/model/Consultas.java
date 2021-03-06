@@ -5,23 +5,26 @@
  */
 package LoginMCV.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author CristianMatas
  */
 public class Consultas extends Connexion{
     
-    public boolean Authentication(String user, String pass)
+    public boolean Authentication(String user, String pass) throws SQLException
     {
         Statement st = con.createStatement();
         ResultSet rs = null;
         String Consulta = "Select * from users";
         rs = st.executeQuery(Consulta);
         
-        while(ra.next())
-        {
+        while(rs.next()) {
             //miro si la combinación username y pwd es correcta segun mi DB
-            if(user.equals(rs.getString("username") && pass.equals((rs.getString("password"))))) 
+            if(user.equals(rs.getString("username")) && pass.equals((rs.getString("password")))) 
                 return true;
         }
         
@@ -31,9 +34,12 @@ public class Consultas extends Connexion{
     
     //función para testear que funciona
     public static void main(String[] args) {
-        Consultas con = new Consultas();
-        System.out.println(con.Authentication("username", "password"));
+        try {
+            Consultas con = new Consultas();
+            System.out.println(con.Authentication("username", "password"));
+        } catch (Exception e) {
+            //TODO: Tratar excepcion
+        }
+        
     }
-    
-    
 }

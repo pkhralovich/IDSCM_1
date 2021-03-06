@@ -5,7 +5,7 @@
  */
 package LoginMVC.servlet;
 
-import LoginMVC.modelo.Consultas;
+import LoginMCV.model.Consultas;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -40,7 +40,7 @@ public class Validacion extends HttpServlet {
         
         Consultas con = new Consultas();
         
-        System.out.println(con.Autenticacion(user, pass));
+        System.out.println(con.Authentication(user, pass));
         
         
     }
