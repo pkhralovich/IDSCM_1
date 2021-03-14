@@ -675,6 +675,10 @@ input {
     text-align: center;
 }
 
+.wrapper-video {
+    max-width: 60%;
+}
+
 table {
     font-size: 18px;
 }

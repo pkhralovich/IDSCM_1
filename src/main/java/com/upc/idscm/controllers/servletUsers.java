@@ -46,8 +46,6 @@ public class servletUsers extends HttpServlet {
     private String getAction(HttpServletRequest request) {  
         String action = request.getParameter("action"); 
         return action;
-        /*String url = request.getRequestURL().toString();
-        return url.substring(url.lastIndexOf("/")+1);*/
     }
 
     @Override

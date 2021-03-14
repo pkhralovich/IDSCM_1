@@ -1,29 +1,26 @@
 package com.upc.idscm.models;
 
 import com.upc.idscm.tools.Database;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Video {
-    private int id;
-    
     private String title;
     private String author;
     private Date creation_date;
     private String duration;
-    private int plays;
+    private long plays;
     private String description;
     private int user_id;
     private String format;
     
-    public Video(int id, String title, String author, Date creation_date,
-                    String duration, int plays, String description, int user_id,
+    public Video(String title, String author, Date creation_date,
+                    String duration, long plays, String description, int user_id,
                     String format) {
-        this.id = id;
         this.title = title;
         this.author = author;
         this.creation_date = creation_date;
@@ -33,11 +30,7 @@ public class Video {
         this.user_id = user_id;
         this.format = format;
     }
-    
-    public int getId() {
-        return this.id;
-    }
-        
+ 
     public String getTitle() {
         return this.title;
     }
@@ -54,7 +47,7 @@ public class Video {
         return this.duration;
     }
     
-    public int getPlays() {
+    public long getPlays() {
         return this.plays;
     }
     
@@ -68,10 +61,6 @@ public class Video {
     
     public String getFormat() {
         return this.format;
-    }
-    
-    public void setId(int value) {
-        this.id = value;
     }
     
     public void setTitle(String value) {
@@ -107,6 +96,17 @@ public class Video {
     }
     
     private static final String QUERY_USER_VIDEOS = "SELECT * FROM videos WHERE user_id = ?";
+    private static final String QUERY_TITLE_USED = "SELECT * FROM videos WHERE title = ? AND user_id = ?";
+    private static final String QUERY_INSERT = "INSERT INTO Videos (title, author, creation_date, duration, plays, description, format, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    public class MAX_LENGTH {
+        public static final int TITLE = 45;
+        public static final int AUTHOR = 45;
+        public static final int DURATION = 45;
+        public static final long PLAYS = Long.MAX_VALUE;
+        public static final int DESCRIPTION = 45;
+        public static final int FORMAT = 45;
+    }
     
     public class FIELDS {
         public static final String ID = "id";
@@ -138,9 +138,32 @@ public class Video {
             int user_id = result.getInt(FIELDS.USERID);
             String format = result.getString(FIELDS.FORMAT);
             
-            oRes.add(new Video(id, title, author, creation_date, duration, plays, description, user_id, format));
+            oRes.add(new Video(title, author, creation_date, duration, plays, description, user_id, format));
         }
         
         return oRes;
+    }
+    
+    public static boolean titleInUse(String title, int user) throws SQLException {
+        PreparedStatement statement = Database.instance().connection.prepareStatement(QUERY_TITLE_USED);
+        statement.setString(1, title);
+        statement.setInt(2, user);
+        
+        ResultSet result = statement.executeQuery();
+        return result.next();
+    }
+    
+    public static boolean insert(Video video) throws SQLException {
+        PreparedStatement statement = Database.instance().connection.prepareStatement(QUERY_INSERT);
+        statement.setString(1, video.getTitle());
+        statement.setString(2, video.getAuthor());
+        statement.setDate(3, new java.sql.Date(video.getCreationDate().getTime()));
+        statement.setString(4, video.getDuration());
+        statement.setLong(5, video.getPlays());
+        statement.setString(6, video.getDescription());
+        statement.setString(7, video.getFormat());
+        statement.setInt(8, video.getUser());
+        
+        return statement.executeUpdate() > 0;
     }
 }

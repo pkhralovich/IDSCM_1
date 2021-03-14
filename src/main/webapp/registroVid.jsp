@@ -25,11 +25,11 @@
     </head>
     <body>
         <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
-        <div class="wrapper wrapper--w680">
+        <div class="wrapper wrapper--w680 wrapper-video">
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Nuevo vídeo</h2>
-                    <form id="form" action="servletUsers" method="POST" onsubmit="return validateForm()">
+                    <form id="form" action="servletRegistroVid" method="POST" onsubmit="return validateForm()">
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
@@ -106,19 +106,11 @@
     
     function validateForm() {
         try {
-            var name = document.getElementById("name").value;
-            var surname = document.getElementById("surname").value;
-            var username = document.getElementById("username").value;
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
-            var confirmation_password = document.getElementById("confirmation_password").value;
+            var author = document.getElementById("author").value;
+            var title = document.getElementById("title").value;
 
-            var valid_form = isNotEmpty(name, "name-error");
-            valid_form = isNotEmpty(surname, "surname-error") && valid_form;
-            valid_form = isNotEmpty(username, "username-error") && valid_form;
-            valid_form = isNotEmpty(email, "email-error") && valid_form;
-            valid_form = isNotEmpty(password, "password-error") && valid_form;
-            valid_form = isNotEmpty(confirmation_password, "confirmation-password-error") && valid_form;
+            var valid_form = isNotEmpty(author, "author-error");
+            valid_form = isNotEmpty(title, "title-error") && valid_form;
 
             return valid_form;
         } catch (e) {
