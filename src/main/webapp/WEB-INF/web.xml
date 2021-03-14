@@ -13,4 +13,19 @@
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
+    
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    
+    <error-page>
+         <exception-type>javax.servlet.ServletException</exception-type>
+         <location>/unhandled_error.jsp</location>
+    </error-page>
+    
+    <error-page>
+         <exception-type>java.io.IOException</exception-type>
+         <location>/unhandled_error.jsp</location>
+    </error-page>
 </web-app>

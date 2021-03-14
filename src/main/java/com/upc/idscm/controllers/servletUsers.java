@@ -98,6 +98,7 @@ public class servletUsers extends HttpServlet {
     
     private void login(HttpServletRequest request, HttpServletResponse response) 
                                             throws ServletException, IOException {
+                
         String username = request.getParameter(PARAMS.USERNAME);
         String password = request.getParameter(PARAMS.PASSWORD);
 
