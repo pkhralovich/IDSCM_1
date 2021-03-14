@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "servletUsers", urlPatterns = {"/servletUsers"})
 public class servletUsers extends HttpServlet {
@@ -51,6 +52,32 @@ public class servletUsers extends HttpServlet {
             throws ServletException, IOException {
         
         initialize_response(response);
+        
+        String username = request.getParameter(PARAMS.USERNAME);
+        String password = request.getParameter(PARAMS.PASSWORD);
+
+        PrintWriter out = response.getWriter();
+        if (!validateUsername(username, request, false)
+                || !validatePassword(password, request, false)) {
+            
+            request.getRequestDispatcher(Pages.LOGIN).forward(request, response);
+        } else {
+            try {
+                int userID = UserDB.instance().Authenticate(username, password);
+                if (userID >= 0) {
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("Username", username);
+                    session.setAttribute("UserID", userID);
+                    response.sendRedirect(Pages.VIDEOS);
+                } else {
+                    out.println("<label class=\"danger-text\"> El usuario o la contraseña no son válidos. </label>");
+                    request.getRequestDispatcher(Pages.LOGIN).include(request, response);
+                }
+            } catch (SQLException e) {
+                out.println("<label class=\"danger-text\"> ¡Atención! Se ha producido un error comprobando el usuario. Vuelva a intentarlo en unos instantes</label>");
+                request.getRequestDispatcher(Pages.LOGIN).include(request, response);
+            }
+        }
     }
 
     /**
@@ -78,7 +105,6 @@ public class servletUsers extends HttpServlet {
         
         PrintWriter out = response.getWriter();
         if (!isValidUser(user, confirmation_password, request)) {
-            out.println("<label class=\"danger-text\"> Atención, se han detectado errores!</label>");
             request.getRequestDispatcher(Pages.SIGNUP).forward(request, response);
         } else {
             try {
@@ -92,8 +118,8 @@ public class servletUsers extends HttpServlet {
     }
     
     private boolean isValidUser(User user, String confirmation_password, HttpServletRequest request) { 
-        boolean isValid = validateUsername(user.getUsername(), request);
-        isValid &= validatePassword(user.getPassword(), request);
+        boolean isValid = validateUsername(user.getUsername(), request, true);
+        isValid &= validatePassword(user.getPassword(), request, true);
         isValid &= validateConfirmationPassword(user.getPassword(), confirmation_password, request);
         isValid &= validateName(user.getName(), request);
         isValid &= validateSurname(user.getSurname(), request);
@@ -102,18 +128,26 @@ public class servletUsers extends HttpServlet {
         return isValid;
     }
     
-    private boolean validateUsername(String username, HttpServletRequest request) {
+    private boolean validateUsername(String username, HttpServletRequest request, boolean new_user) {
         try {
-            if (username == null || username.isEmpty()) {
-                request.setAttribute(ERRORS.USERNAME, "Valor obligatório");
-                return false;
-            } else if (username.length() > UserDB.MAX_LENGTH.USERNAME) {
-                request.setAttribute(ERRORS.USERNAME, "Longitud máxima superada");
-                return false;
-            } else if (UserDB.instance().usernameUsed(username)) {
-                request.setAttribute(ERRORS.USERNAME, "Nombre de usuario en uso");
-                return false;
+            if (new_user) {
+                if (username == null || username.isEmpty()) {
+                    request.setAttribute(ERRORS.USERNAME, "Valor obligatório");
+                    return false;
+                } else if (username.length() > UserDB.MAX_LENGTH.USERNAME) {
+                    request.setAttribute(ERRORS.USERNAME, "Longitud máxima superada");
+                    return false;
+                } else if (UserDB.instance().usernameUsed(username)) {
+                    request.setAttribute(ERRORS.USERNAME, "Nombre de usuario en uso");
+                    return false;
+                }
+            } else {
+                if (username == null || username.isEmpty()) {
+                    request.setAttribute(ERRORS.USERNAME, "Valor obligatório");
+                    return false;
+                }
             }
+            
             
             return true;
         } catch (SQLException e) {
@@ -122,14 +156,25 @@ public class servletUsers extends HttpServlet {
         }
     }
     
-    private boolean validatePassword(String password, HttpServletRequest request) {
-        if (password == null || password.isEmpty()) {
-            request.setAttribute(ERRORS.PASSWORD, "Valor obligatório");
-            return false;
-        } else if (password.length() > UserDB.MAX_LENGTH.PASSWORD) {
-            request.setAttribute(ERRORS.PASSWORD, "Longitud máxima superada");
-            return false;
+    private boolean validatePassword(String password, HttpServletRequest request, boolean new_user) {
+        if (new_user) {
+            if (password == null || password.isEmpty()) {
+                request.setAttribute(ERRORS.PASSWORD, "Valor obligatório");
+                return false;
+            } else if (password.length() > UserDB.MAX_LENGTH.PASSWORD) {
+                request.setAttribute(ERRORS.PASSWORD, "Longitud máxima superada");
+                return false;
+            }
+        } else {
+            if (password == null || password.isEmpty()) {
+                request.setAttribute(ERRORS.PASSWORD, "Valor obligatório");
+                return false;
+            } else if (password.length() > UserDB.MAX_LENGTH.PASSWORD) {
+                request.setAttribute(ERRORS.PASSWORD, "Longitud máxima superada");
+                return false;
+            }
         }
+        
         
         return true;
     }

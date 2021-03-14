@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,23 +19,25 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Inicio de sesión</h2>
-                    <form method="POST">
+                    <form action="servletUsers" method="GET" onsubmit="return validateForm()">
                         <div class="row row-space">
                             <div class="input-group">
                                 <label class="label">Nombre de usuario</label>
-                                <input class="input--style-4" type="text" name="username">
+                                <input id="username" class="input--style-4" type="text" name="username" value="${fn:escapeXml(param.username)}">
+                                <label class="label label-error" id="username-error">${username_error}</label>
                             </div>
                         </div>
                         
                         <div class="row row-space">
                             <div class="input-group">
                                 <label class="label">Contraseña</label>
-                                <input class="input--style-4" type="password" name="password">
+                                <input id="password" class="input--style-4" type="password" name="password">
+                            <label class="label label-error" id="password-error">${password_error}</label>
                             </div>
                         </div>
                         
                         <div class="p-t-15">
-                            <button class="btn btn--radius-2 btn--blue m-b-15" type="submit">Submit</button>
+                            <button class="btn btn--radius-2 btn--blue m-b-15" type="submit">Iniciar sesión</button>
                         </div>
                         
                         <a class="p-t-15" href="./signup.jsp"> ¿Aún no tienes cuenta? Registrar </a>
@@ -45,4 +48,28 @@
         </div>
     </div>
     </body>
+    
+    <script>
+        function validateForm() {
+        try {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+      
+            return isNotEmpty(username, "username-error")
+                    && isNotEmpty(password, "password-error");
+        } catch (e) {
+            alert(e);
+            return false;
+        }
+    }
+    
+    function isNotEmpty(value, error_id) {
+        if (!value) {
+            document.getElementById(error_id).innerHTML = "Valor obligatório";
+            return false;
+        }
+        
+        return true;
+    }
+    </script>
 </html>

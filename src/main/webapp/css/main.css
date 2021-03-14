@@ -654,3 +654,10 @@ input {
     text-align: center;
     font-size: 1.25em;
 }
+
+.label-error {
+    color: var(--bs-red);
+    text-transform: none;
+    font-size: 14px;
+    margin-top: 5px;
+}

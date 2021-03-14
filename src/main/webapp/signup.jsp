@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="p-t-15">
-                            <button class="btn btn--radius-2 btn--blue m-b-15" type="submit">Submit</button>
+                            <button class="btn btn--radius-2 btn--blue m-b-15" type="submit">Registrar</button>
                         </div>
                         <a class="p-t-15" href="./login.jsp"> ¿Ya registrado? Iniciar sesión </a>
                         <p class="p-t-15"> IDSCM - © 2020 Cristian Matas & Pavel Khralovich</p>
@@ -94,19 +94,27 @@
             var password = document.getElementById("password").value;
             var confirmation_password = document.getElementById("confirmation_password").value;
 
-            var valid_form = true;
+            var valid_form = isNotEmpty(name, "name-error");
+            valid_form = isNotEmpty(surname, "surname-error") && valid_form;
+            valid_form = isNotEmpty(username, "username-error") && valid_form;
+            valid_form = isNotEmpty(email, "email-error") && valid_form;
+            valid_form = isNotEmpty(password, "password-error") && valid_form;
+            valid_form = isNotEmpty(confirmation_password, "confirmation-password-error") && valid_form;
 
-            /*if (!name) {
-                valid_form = false;
-                document.getElementById("name-error").innerHTML = "Valor obligatório";
-            }
-
-            alert(valid_form);*/
             return valid_form;
         } catch (e) {
             alert(e);
             return false;
         }
+    }
+    
+    function isNotEmpty(value, error_id) {
+        if (!value) {
+            document.getElementById(error_id).innerHTML = "Valor obligatório";
+            return false;
+        }
+        
+        return true;
     }
     </script>
 </html>

@@ -1,16 +1,7 @@
 package com.upc.idscm.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
     private String name;
     private String surname;
     private String email;
@@ -73,12 +64,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    /*public boolean isValid() {
-        return this.name != null && !this.name.isEmpty()
-                && this.surname != null && !this.surname.isEmpty()
-                && this.username != null && !this.username.isEmpty()
-                && this.email != null && !this.email.isEmpty()
-                && this.password != null && !this.password.isEmpty();
-    }*/
 }

@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDB extends Database {
-    private static final String QUERY_AUTH = "SELECT username, password FROM users WHERE username = ? AND password = ?";
+    private static final String QUERY_AUTH = "SELECT * FROM users WHERE username = ? AND password = ?";
     private static final String QUERY_SIGNUP = "INSERT INTO users (name, surname, email, username, password) VALUES (?, ?, ?, ?, ?)";
     private static final String QUERY_DROP = "DELETE FROM users WHERE username = ?";
     private static final String QUERY_SELECT_BY_USERNAME = "SELECT * FROM users WHERE username = ?";
@@ -19,6 +19,10 @@ public class UserDB extends Database {
         public static final int EMAIL = 45;
         public static final int NAME = 45;
         public static final int SURNAME = 45;
+    }
+    
+    public class FIELDS {
+        public static final String ID = "id";
     }
     
     //INSTANCIA DE PATRON SINGLETON
@@ -34,13 +38,17 @@ public class UserDB extends Database {
         return m_instance;
     }
     
-    public boolean Authenticate(String user, String pass) throws SQLException {
+    public int Authenticate(String user, String pass) throws SQLException {
         PreparedStatement statement = m_connection.prepareStatement(QUERY_AUTH);
         statement.setString(1, user);
         statement.setString(2, Encryption.hash(pass));
         
         ResultSet result = statement.executeQuery();
-        return result.next();
+        if (result.next()) {
+            return result.getInt(FIELDS.ID);
+        } else {
+            return -1;
+        }
     }
     
     public boolean Signup(User user) throws SQLException {
@@ -75,31 +83,5 @@ public class UserDB extends Database {
         
         ResultSet result = statement.executeQuery();
         return result.next();
-    }
-    
-    public static void main(String[] args) {
-        try {
-            final String MOCK_USER = "pavelK96";
-            final String MOCK_PASS = "1234";
-            
-            boolean droped = UserDB.instance().Drop(MOCK_USER);
-            System.out.println("Droped: " + droped);
-            
-            boolean authenticated = UserDB.instance().Authenticate(MOCK_USER, MOCK_PASS);
-            System.out.println("Authenticated 1: " + authenticated);
-            
-            User user = new User("pavel", "Khralovich", "pavel.khralovich@gmail.com",
-                                    MOCK_USER, MOCK_PASS);
-            boolean created = UserDB.instance().Signup(user);
-            System.out.println("Created: " + created);
-            
-            authenticated = UserDB.instance().Authenticate(MOCK_USER, MOCK_PASS);
-            System.out.println("Authenticated 2: " + authenticated);
-            
-            boolean exist = UserDB.instance().emailInUse("pavel@logic-key.com");
-            System.out.println("Mail in use: " + exist);
-        } catch (SQLException e) {
-            System.out.println("Error:" + e.getMessage());
-        }
     }
 }
