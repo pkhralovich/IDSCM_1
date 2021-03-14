@@ -1,5 +1,14 @@
+<%@page import="com.upc.idscm.tools.Pages"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    session=request.getSession(false);
+    if(session.getAttribute("UserID") != null && session.getAttribute("Username") != null) {
+        response.sendRedirect(Pages.VIDEOS);
+    }
+%> 
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,7 +28,7 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Inicio de sesión</h2>
-                    <form action="servletUsers" method="GET" onsubmit="return validateForm()">
+                    <form action="servletUsers?action=login" method="POST" onsubmit="return validateForm()">
                         <div class="row row-space">
                             <div class="input-group">
                                 <label class="label">Nombre de usuario</label>
@@ -32,7 +41,7 @@
                             <div class="input-group">
                                 <label class="label">Contraseña</label>
                                 <input id="password" class="input--style-4" type="password" name="password">
-                            <label class="label label-error" id="password-error">${password_error}</label>
+                                <label class="label label-error" id="password-error">${password_error}</label>
                             </div>
                         </div>
                         
@@ -40,8 +49,8 @@
                             <button class="btn btn--radius-2 btn--blue m-b-15" type="submit">Iniciar sesión</button>
                         </div>
                         
-                        <a class="p-t-15" href="./signup.jsp"> ¿Aún no tienes cuenta? Registrar </a>
-                        <p class="p-t-15"> IDSCM - © 2020 Cristian Matas & Pavel Khralovich</p>
+                        <a class="p-t-15" href="./registroUsu.jsp"> ¿Aún no tienes cuenta? Registrar </a>
+                        <p class="p-t-15"> IDSCM - © 2021 Cristian Matas & Pavel Khralovich</p>
                     </form>
                 </div>
             </div>
@@ -55,8 +64,9 @@
             var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
       
-            return isNotEmpty(username, "username-error")
-                    && isNotEmpty(password, "password-error");
+            let oRes = isNotEmpty(username, "username-error");
+            oRes = isNotEmpty(password, "password-error") && oRes;
+            return oRes;
         } catch (e) {
             alert(e);
             return false;

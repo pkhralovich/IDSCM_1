@@ -1,7 +1,6 @@
 package com.upc.idscm.controllers;
 
 import com.upc.idscm.models.User;
-import com.upc.idscm.database.UserDB;
 import com.upc.idscm.tools.Pages;
 import com.upc.idscm.tools.Validation;
 import java.io.IOException;
@@ -34,25 +33,71 @@ public class servletUsers extends HttpServlet {
         private static final String CONFIRMATION_PASSWORD = "confirmation_password_error";
     }
     
+    private class ACTIONS {
+        private static final String LOGIN = "login";
+        private static final String LOGOUT = "logout";
+        private static final String SIGNUP = "signup";
+    }
+    
     private void initialize_response(HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
     }
     
-    
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private String getAction(HttpServletRequest request) {  
+        String action = request.getParameter("action"); 
+        return action;
+        /*String url = request.getRequestURL().toString();
+        return url.substring(url.lastIndexOf("/")+1);*/
+    }
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         initialize_response(response);
         
+        String action = getAction(request);
+        switch (action) {
+            case ACTIONS.SIGNUP: {
+                signup(request, response);
+                break;
+            }
+            case ACTIONS.LOGIN: {
+                login(request, response);
+                break;
+            }
+            case ACTIONS.LOGOUT: {
+                logout(request, response);
+                break;
+            }
+        }
+    }
+    
+    private void signup(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String name = request.getParameter(PARAMS.NAME);
+        String surname = request.getParameter(PARAMS.SURNAME);
+        String username = request.getParameter(PARAMS.USERNAME);
+        String email = request.getParameter(PARAMS.EMAIL);
+        String password = request.getParameter(PARAMS.PASSWORD);
+        String confirmation_password = request.getParameter(PARAMS.CONFIRMATION_PASSWORD);
+
+        User user = new User(name, surname, email, username, password);
+        if (!isValidUser(user, confirmation_password, request)) {
+            request.getRequestDispatcher(Pages.SIGNUP).forward(request, response);
+        } else {
+            try {
+                User.signup(user);
+                response.sendRedirect(Pages.SIGNUP_COMPLETED);
+            } catch (SQLException e) {
+                PrintWriter out = response.getWriter();
+                out.println("<label class=\"danger-text\"> ¡Atención! Se ha producido un error guardando el usuario. Vuelva a intentarlo en unos instantes</label>");
+                request.getRequestDispatcher(Pages.SIGNUP).include(request, response);
+            }
+        }
+    }
+    
+    private void login(HttpServletRequest request, HttpServletResponse response) 
+                                            throws ServletException, IOException {
         String username = request.getParameter(PARAMS.USERNAME);
         String password = request.getParameter(PARAMS.PASSWORD);
 
@@ -63,7 +108,7 @@ public class servletUsers extends HttpServlet {
             request.getRequestDispatcher(Pages.LOGIN).forward(request, response);
         } else {
             try {
-                int userID = UserDB.instance().Authenticate(username, password);
+                int userID = User.authenticate(username, password);
                 if (userID >= 0) {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("Username", username);
@@ -79,42 +124,11 @@ public class servletUsers extends HttpServlet {
             }
         }
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        initialize_response(response);
-        
-        String name = request.getParameter(PARAMS.NAME);
-        String surname = request.getParameter(PARAMS.SURNAME);
-        String username = request.getParameter(PARAMS.USERNAME);
-        String email = request.getParameter(PARAMS.EMAIL);
-        String password = request.getParameter(PARAMS.PASSWORD);
-        String confirmation_password = request.getParameter(PARAMS.CONFIRMATION_PASSWORD);
-        
-        User user = new User(name, surname, email, username, password);
-        
-        PrintWriter out = response.getWriter();
-        if (!isValidUser(user, confirmation_password, request)) {
-            request.getRequestDispatcher(Pages.SIGNUP).forward(request, response);
-        } else {
-            try {
-                UserDB.instance().Signup(user);
-                request.getRequestDispatcher(Pages.SIGNUP_COMPLETED).forward(request, response);
-            } catch (SQLException e) {
-                out.println("<label class=\"danger-text\"> ¡Atención! Se ha producido un error guardando el usuario. Vuelva a intentarlo en unos instantes</label>");
-                request.getRequestDispatcher(Pages.SIGNUP).include(request, response);
-            }
-        }
+    
+    private void logout(HttpServletRequest request, HttpServletResponse response) 
+                                           throws ServletException, IOException {
+        request.getSession().invalidate();
+        response.sendRedirect(Pages.LOGIN);
     }
     
     private boolean isValidUser(User user, String confirmation_password, HttpServletRequest request) { 
@@ -134,10 +148,10 @@ public class servletUsers extends HttpServlet {
                 if (username == null || username.isEmpty()) {
                     request.setAttribute(ERRORS.USERNAME, "Valor obligatório");
                     return false;
-                } else if (username.length() > UserDB.MAX_LENGTH.USERNAME) {
+                } else if (username.length() > User.MAX_LENGTH.USERNAME) {
                     request.setAttribute(ERRORS.USERNAME, "Longitud máxima superada");
                     return false;
-                } else if (UserDB.instance().usernameUsed(username)) {
+                } else if (User.usernameUsed(username)) {
                     request.setAttribute(ERRORS.USERNAME, "Nombre de usuario en uso");
                     return false;
                 }
@@ -161,7 +175,7 @@ public class servletUsers extends HttpServlet {
             if (password == null || password.isEmpty()) {
                 request.setAttribute(ERRORS.PASSWORD, "Valor obligatório");
                 return false;
-            } else if (password.length() > UserDB.MAX_LENGTH.PASSWORD) {
+            } else if (password.length() > User.MAX_LENGTH.PASSWORD) {
                 request.setAttribute(ERRORS.PASSWORD, "Longitud máxima superada");
                 return false;
             }
@@ -169,7 +183,7 @@ public class servletUsers extends HttpServlet {
             if (password == null || password.isEmpty()) {
                 request.setAttribute(ERRORS.PASSWORD, "Valor obligatório");
                 return false;
-            } else if (password.length() > UserDB.MAX_LENGTH.PASSWORD) {
+            } else if (password.length() > User.MAX_LENGTH.PASSWORD) {
                 request.setAttribute(ERRORS.PASSWORD, "Longitud máxima superada");
                 return false;
             }
@@ -183,7 +197,7 @@ public class servletUsers extends HttpServlet {
         if (name == null || name.isEmpty()) {
             request.setAttribute(ERRORS.NAME, "Valor obligatório");
             return false;
-        } else if (name.length() > UserDB.MAX_LENGTH.NAME) {
+        } else if (name.length() > User.MAX_LENGTH.NAME) {
             request.setAttribute(ERRORS.NAME, "Longitud máxima superada");
             return false;
         }
@@ -195,7 +209,7 @@ public class servletUsers extends HttpServlet {
         if (surname == null || surname.isEmpty()) {
             request.setAttribute(ERRORS.SURNAME, "Valor obligatório");
             return false;
-        } else if (surname.length() > UserDB.MAX_LENGTH.SURNAME) {
+        } else if (surname.length() > User.MAX_LENGTH.SURNAME) {
             request.setAttribute(ERRORS.SURNAME, "Longitud máxima superada");
             return false;
         }
@@ -209,13 +223,13 @@ public class servletUsers extends HttpServlet {
             if (email == null || email.isEmpty()) {
                 request.setAttribute(ERRORS.EMAIL, "Valor obligatório");
                 result = false;
-            } else if (email.length() > UserDB.MAX_LENGTH.EMAIL) {
+            } else if (email.length() > User.MAX_LENGTH.EMAIL) {
                 request.setAttribute(ERRORS.EMAIL, "Longitud máxima superada");
                 result = false;
             } else if (!Validation.isValidEmail(email)) {
                 request.setAttribute(ERRORS.EMAIL, "Correo no válido");
                 result = false;
-            } else if (UserDB.instance().emailInUse(email)) {
+            } else if (User.emailInUse(email)) {
                 request.setAttribute(ERRORS.EMAIL, "Correo en uso");
                 result = false;
             }

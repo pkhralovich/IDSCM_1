@@ -1,10 +1,10 @@
-package com.upc.idscm.database;
+package com.upc.idscm.tools;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class Database {
+public class Database {
     //PARAMETROS DE CONEXION
     private static final String USERNAME = "b1618172c3c467";
     private static final String PASSWORD = "bc888a24";
@@ -15,20 +15,27 @@ public abstract class Database {
     private static final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?autoReconnect=true&useSSL=false";
     
     //CONEXION A LA BBDD
-    protected static Connection m_connection;
+    public Connection connection;
     
     //INSTANCIA DE PATRON SINGLETON
-    //private static Database m_instance;
+    private static Database m_instance;
     
     //CONSTRUCTOR PRIVADO
-    protected Database() {
+    private Database() {
         try {
             Class.forName(CLASSNAME);
-            m_connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (ClassNotFoundException e) {
             System.out.println("Error: MySQL connection class not found");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+    
+    public static Database instance() {
+        if (m_instance == null) {
+            m_instance = new Database();
+        }
+        return m_instance;
     }
 }

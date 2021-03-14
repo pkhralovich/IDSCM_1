@@ -38,6 +38,12 @@
   width: calc((100% - 30px) / 2);
 }
 
+.col-3 {
+  width: -webkit-calc((100% - 30px) / 3);
+  width: -moz-calc((100% - 30px) / 3);
+  width: calc((100% - 30px) / 3);
+}
+
 @media (max-width: 767px) {
   .col-2 {
     width: 100%;
@@ -307,6 +313,8 @@ td.active {
 
 input[type="date"] {
   padding: 14px;
+  padding-top: 0;
+    padding-bottom: 0;
 }
 
 .table-condensed td, .table-condensed th {
@@ -660,4 +668,17 @@ input {
     text-transform: none;
     font-size: 14px;
     margin-top: 5px;
+}
+
+.wrapper-grid {
+    max-width: 80%;
+    text-align: center;
+}
+
+table {
+    font-size: 18px;
+}
+
+.empty-list {
+    padding: 20px;
 }

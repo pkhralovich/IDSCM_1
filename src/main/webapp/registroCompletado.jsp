@@ -1,4 +1,14 @@
+<%@page import="com.upc.idscm.tools.Pages"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    session=request.getSession(false);
+    if(session.getAttribute("UserID") != null && session.getAttribute("Username") != null) {
+        response.sendRedirect(Pages.VIDEOS);
+    }
+%> 
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,7 +35,7 @@
                         <div class="p-t-15">
                             <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = './login.jsp'">Ir a inicio de sesión</button>
                         </div>
-                        <p class="p-t-15"> IDSCM - © 2020 Cristian Matas & Pavel Khralovich</p>
+                        <p class="p-t-15"> IDSCM - © 2021 Cristian Matas & Pavel Khralovich</p>
                     </div>
                 </div>
             </div>

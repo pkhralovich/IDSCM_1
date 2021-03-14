@@ -1,6 +1,14 @@
+<%@page import="com.upc.idscm.tools.Pages"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    session=request.getSession(false);
+    if(session.getAttribute("UserID") != null && session.getAttribute("Username") != null) {
+        response.sendRedirect(Pages.VIDEOS);
+    }
+%> 
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,7 +28,7 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Formulario de registro</h2>
-                    <form action="servletUsers" method="POST" onsubmit="return validateForm()">
+                    <form action="servletUsers?action=signup" method="POST" onsubmit="return validateForm()">
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
@@ -75,7 +83,7 @@
                             <button class="btn btn--radius-2 btn--blue m-b-15" type="submit">Registrar</button>
                         </div>
                         <a class="p-t-15" href="./login.jsp"> ¿Ya registrado? Iniciar sesión </a>
-                        <p class="p-t-15"> IDSCM - © 2020 Cristian Matas & Pavel Khralovich</p>
+                        <p class="p-t-15"> IDSCM - © 2021 Cristian Matas & Pavel Khralovich</p>
                     </form>
                 </div>
             </div>
