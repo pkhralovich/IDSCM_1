@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.upc.idscm.models;
 
 import javax.persistence.Entity;
@@ -10,10 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- *
- * @author pavel
- */
 @Entity
 public class User {
     @Id
@@ -25,6 +16,27 @@ public class User {
     private String email;
     private String username;
     private String password;
+
+    public User() {
+        this.name = "";
+        this.surname = "";
+        this.email = "";
+        this.username = "";
+        this.password = "";
+        
+        this.id = -1;
+    }
+    
+    public User(String name, String surname, String email, 
+                String username, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.username = username; 
+        this.password = password;
+        
+        this.id = -1;
+    }
     
     public String getName() {
         return name;
@@ -61,4 +73,12 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    /*public boolean isValid() {
+        return this.name != null && !this.name.isEmpty()
+                && this.surname != null && !this.surname.isEmpty()
+                && this.username != null && !this.username.isEmpty()
+                && this.email != null && !this.email.isEmpty()
+                && this.password != null && !this.password.isEmpty();
+    }*/
 }

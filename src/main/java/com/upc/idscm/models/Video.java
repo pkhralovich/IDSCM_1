@@ -6,9 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- * @author Pavel & Cristian
- */
 @Entity
 public class Video {
     @Id
@@ -19,4 +16,7 @@ public class Video {
     private String author;
     private Date creation_date;
     
+    public String getTitle() {
+        return this.title;
+    }
 }

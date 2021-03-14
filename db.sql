@@ -1,4 +1,5 @@
-CREATE TABLE `idscm`.`users` (
+
+CREATE TABLE `heroku_bc706673f184f21`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `surname` VARCHAR(45),
@@ -9,7 +10,7 @@ CREATE TABLE `idscm`.`users` (
   UNIQUE INDEX `username` (`username` ASC) VISIBLE,
   UNIQUE INDEX `email` (`email` ASC) VISIBLE);
 
-CREATE TABLE `idscm`.`videos` (
+CREATE TABLE `heroku_bc706673f184f21`.`videos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL,
   `author` VARCHAR(45) NULL,
