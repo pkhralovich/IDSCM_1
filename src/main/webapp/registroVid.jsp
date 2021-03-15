@@ -29,19 +29,19 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Nuevo vídeo</h2>
-                    <form id="form" action="servletRegistroVid" method="POST" onsubmit="return validateForm()">
+                    <form id="form" action="<%= request.getContextPath() %>/registroVid" method="POST" onsubmit="return validateForm()">
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Título</label>
-                                    <input id="title" class="input--style-4" type="text" name="title" value="${fn:escapeXml(param.title)}">
+                                    <input id="title" placeholder="Señor de los Anillos" class="input--style-4" type="text" name="title" value="${fn:escapeXml(param.title)}">
                                     <label class="label label-error" id="title-error">${title_error}</label>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Autor</label>
-                                    <input id="author" class="input--style-4" type="text" name="author" value="${fn:escapeXml(param.author)}">
+                                    <input id="author" placeholder="Tolkien" class="input--style-4" type="text" name="author" value="${fn:escapeXml(param.author)}">
                                     <label class="label label-error" id="author-error">${author_error}</label>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                             <div class="col-3">
                                 <div class="input-group">
                                     <label class="label">Reproducciones</label>
-                                    <input id="plays" class="input--style-4" type="number" name="plays" value="${fn:escapeXml(param.plays)}">
+                                    <input id="plays" placeholder="100" class="input--style-4" min="0" type="number" name="plays" value="${fn:escapeXml(param.plays)}">
                                     <label class="label label-error" id="plays-error">${plays_error}</label>
                                 </div>
                             </div>
@@ -75,14 +75,14 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Descripción</label>
-                                    <input id="description" class="input--style-4" type="text" name="description" value="${fn:escapeXml(param.description)}">
+                                    <input id="description" placeholder="Película más larga de la história" class="input--style-4" type="text" name="description" value="${fn:escapeXml(param.description)}">
                                     <label class="label label-error" id="description-error">${description_error}</label>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Formato</label>
-                                    <input id="format" class="input--style-4" type="text" name="format" value="${fn:escapeXml(param.format)}">
+                                    <input id="format" placeholder="VHS" class="input--style-4" type="text" name="format" value="${fn:escapeXml(param.format)}">
                                     <label class="label label-error" id="format-error">${format_error}</label>
                                 </div>
                             </div>

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "servletRegistroVid", urlPatterns = {"/servletRegistroVid"})
+@WebServlet(name = "servletRegistroVid", urlPatterns = {"/videos", "/registroVid"})
 public class servletRegistroVid extends HttpServlet {
     private class PARAMS {
         public static final String TITLE = "title";
@@ -39,8 +39,49 @@ public class servletRegistroVid extends HttpServlet {
         public static final String FORMAT = "format_error";
     }
     
+    private class ACTIONS {
+        private static final String VIDEOS = "/videos";
+        private static final String NEW_VIDEO = "/registroVid";
+    }
+    
     private void initialize_response(HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
+    }
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+                                            throws ServletException, IOException {
+        
+        initialize_response(response);
+        
+        HttpSession session = request.getSession(false);
+        switch (request.getServletPath()) {
+            case ACTIONS.VIDEOS: {
+                if (session.getAttribute("Username") == null
+                        || session.getAttribute("UserID") == null) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(Pages.LOGIN);
+                }
+                else {
+                    request.getRequestDispatcher(Pages.VIDEOS).forward(request, response);
+                }
+                break;
+            }
+            case ACTIONS.NEW_VIDEO: {
+                if (session.getAttribute("Username") == null
+                        || session.getAttribute("UserID") == null) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(Pages.LOGIN);
+                }
+                else {
+                    request.getRequestDispatcher(Pages.NEW_VIDEO).forward(request, response);
+                }
+                break;
+            }
+            default : {
+                response.sendRedirect(Pages.NOT_FOUND);
+            }
+        }
     }
     
     @Override

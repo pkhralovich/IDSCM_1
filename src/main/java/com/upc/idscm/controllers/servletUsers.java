@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "servletUsers", urlPatterns = {"/servletUsers"})
+@WebServlet(name = "servletUsers", urlPatterns = { "/login", "/signup", "/logout"})
 public class servletUsers extends HttpServlet {
     private class PARAMS {
         private static final String NAME = "name";
@@ -34,28 +34,49 @@ public class servletUsers extends HttpServlet {
     }
     
     private class ACTIONS {
-        private static final String LOGIN = "login";
-        private static final String LOGOUT = "logout";
-        private static final String SIGNUP = "signup";
+        private static final String LOGIN = "/login";
+        private static final String LOGOUT = "/logout";
+        private static final String SIGNUP = "/signup";
     }
     
     private void initialize_response(HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
     }
     
-    private String getAction(HttpServletRequest request) {  
-        String action = request.getParameter("action"); 
-        return action;
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+                                            throws ServletException, IOException {
+        
+        initialize_response(response);
+        
+        HttpSession session = request.getSession(false);
+        if (session.getAttribute("Username") != null
+                && session.getAttribute("UserID") != null) {
+            response.sendRedirect(Pages.VIDEOS);
+        }
+        
+        switch (request.getServletPath()) {
+            case ACTIONS.LOGIN: {
+                request.getRequestDispatcher(Pages.LOGIN).forward(request, response);
+                break;
+            }
+            case ACTIONS.SIGNUP: {
+                request.getRequestDispatcher(Pages.SIGNUP).forward(request, response);
+                break;
+            }
+            default : {
+                response.sendRedirect(Pages.NOT_FOUND);
+            }
+        }
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         initialize_response(response);
-        
-        String action = getAction(request);
-        switch (action) {
+
+        switch (request.getServletPath()) {
             case ACTIONS.SIGNUP: {
                 signup(request, response);
                 break;
@@ -67,6 +88,9 @@ public class servletUsers extends HttpServlet {
             case ACTIONS.LOGOUT: {
                 logout(request, response);
                 break;
+            }
+            default: {
+                response.sendRedirect(Pages.NOT_FOUND);
             }
         }
     }

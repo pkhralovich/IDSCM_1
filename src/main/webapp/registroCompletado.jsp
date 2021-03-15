@@ -33,7 +33,7 @@
                         al sistema con tu usuario y contraseña. Recuerda guardar tu contraseña en un
                         entorno seguro para poder acceder al sistema.</p>
                         <div class="p-t-15">
-                            <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = './login.jsp'">Ir a inicio de sesión</button>
+                            <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/login'">Ir a inicio de sesión</button>
                         </div>
                         <p class="p-t-15"> IDSCM - © 2021 Cristian Matas & Pavel Khralovich</p>
                     </div>

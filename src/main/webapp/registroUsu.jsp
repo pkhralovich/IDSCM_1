@@ -28,19 +28,19 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Formulario de registro</h2>
-                    <form action="servletUsers?action=signup" method="POST" onsubmit="return validateForm()">
+                    <form action="<%= request.getContextPath() %>/signup" method="POST" onsubmit="return validateForm()">
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Nombre</label>
-                                    <input id="name" class="input--style-4" type="text" name="name" value="${fn:escapeXml(param.name)}">
+                                    <input id="name" placeholder="Cristian" class="input--style-4" type="text" name="name" value="${fn:escapeXml(param.name)}">
                                     <label class="label label-error" id="name-error">${name_error}</label>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Apellido</label>
-                                    <input id="surname" class="input--style-4" type="text" name="surname" value="${fn:escapeXml(param.surname)}">
+                                    <input id="surname" placeholder="Apellido" class="input--style-4" type="text" name="surname" value="${fn:escapeXml(param.surname)}">
                                     <label class="label label-error" id="surname-error">${surname_error}</label>
                                 </div>
                             </div>
@@ -50,14 +50,14 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Usuario</label>
-                                    <input id="username" class="input--style-4" type="text" name="username" value="${fn:escapeXml(param.username)}">
+                                    <input id="username" placeholder="Cr9" class="input--style-4" type="text" name="username" value="${fn:escapeXml(param.username)}">
                                     <label class="label label-error" id="username-error">${username_error}</label>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Correo electrónico</label>
-                                    <input id="email" class="input--style-4" type="text" name="email" value="${fn:escapeXml(param.email)}">
+                                    <input id="email" placeholder="cristian.matas@estudiantat.upc.edu" class="input--style-4" type="text" name="email" value="${fn:escapeXml(param.email)}">
                                     <label class="label label-error" id="email-error">${email_error}</label>
                                 </div>
                             </div>
@@ -67,14 +67,14 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Contraseña</label>
-                                    <input id="password" class="input--style-4" type="password" name="password" value="${fn:escapeXml(param.password)}">
+                                    <input id="password" placeholder="********" class="input--style-4" type="password" name="password" value="${fn:escapeXml(param.password)}">
                                     <label class="label label-error" id="password-error">${password_error}</label>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Confirmar contraseña</label>
-                                    <input id="confirmation_password" class="input--style-4" type="password" name="confirmation_password" value="${fn:escapeXml(param.confirmation_password)}">
+                                    <input id="confirmation_password" placeholder="********" class="input--style-4" type="password" name="confirmation_password" value="${fn:escapeXml(param.confirmation_password)}">
                                     <label class="label label-error" id="confirmation-password-error">${confirmation_password_error}</label>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                         <div class="p-t-15">
                             <button class="btn btn--radius-2 btn--blue m-b-15" type="submit">Registrar</button>
                         </div>
-                        <a class="p-t-15" href="./login.jsp"> ¿Ya registrado? Iniciar sesión </a>
+                        <a class="p-t-15" href="<%= request.getContextPath() %>/login"> ¿Ya registrado? Iniciar sesión </a>
                         <p class="p-t-15"> IDSCM - © 2021 Cristian Matas & Pavel Khralovich</p>
                     </form>
                 </div>

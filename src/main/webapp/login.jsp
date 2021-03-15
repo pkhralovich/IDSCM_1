@@ -28,11 +28,11 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Inicio de sesión</h2>
-                    <form action="servletUsers?action=login" method="POST" onsubmit="return validateForm()">
+                    <form action="<%= request.getContextPath() %>/login" method="POST" onsubmit="return validateForm()">
                         <div class="row row-space">
                             <div class="input-group">
                                 <label class="label">Nombre de usuario</label>
-                                <input id="username" class="input--style-4" type="text" name="username" value="${fn:escapeXml(param.username)}">
+                                <input id="username" placeholder="Pavel" class="input--style-4" type="text" name="username" value="${fn:escapeXml(param.username)}">
                                 <label class="label label-error" id="username-error">${username_error}</label>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                         <div class="row row-space">
                             <div class="input-group">
                                 <label class="label">Contraseña</label>
-                                <input id="password" class="input--style-4" type="password" name="password">
+                                <input id="password" placeholder="*********" class="input--style-4" type="password" name="password">
                                 <label class="label label-error" id="password-error">${password_error}</label>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             <button class="btn btn--radius-2 btn--blue m-b-15" type="submit">Iniciar sesión</button>
                         </div>
                         
-                        <a class="p-t-15" href="./registroUsu.jsp"> ¿Aún no tienes cuenta? Registrar </a>
+                        <a class="p-t-15" href="<%= request.getContextPath() %>/signup"> ¿Aún no tienes cuenta? Registrar </a>
                         <p class="p-t-15"> IDSCM - © 2021 Cristian Matas & Pavel Khralovich</p>
                     </form>
                 </div>

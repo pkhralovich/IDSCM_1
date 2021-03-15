@@ -72,9 +72,9 @@
                         
                         <div class="p-t-15">
                             <button class="btn btn--radius-2 btn--blue m-b-15" type="submit" form="logout">Cerrar sesión</button>
-                            <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = './registroVid.jsp'">Añadir vídeo</button>
+                            <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/registroVid'">Añadir vídeo</button>
                             
-                            <form id="logout" action="servletUsers?action=logout" method="POST"/>
+                            <form id="logout" action="<%= request.getContextPath() %>/logout" method="POST"/>
                         </div>
                         
                         <p class="p-t-15"> IDSCM - © 2021 Cristian Matas & Pavel Khralovich</p>
