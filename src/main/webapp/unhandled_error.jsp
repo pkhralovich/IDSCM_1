@@ -21,9 +21,8 @@
                 <div class="card-body">
                     <h2 class="title">Error inesperado</h2>
                     <div>
-                        <p>Se ha producido un error en la página en la que se encontraba. Pruebe a intentar el proceso de nuevo. Error: </p>
-                        <br>
-                        <p> <% exception.printStackTrace(new java.io.PrintWriter(pageContext.getOut())); %> </p>
+                        <p>Se ha producido un error en la página en la que se encontraba. Pruebe a intentar el proceso de nuevo. </p>
+                        
                         <div class="p-t-15">
                             <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = './login.jsp'">Ir a la página principal</button>
                         </div>
