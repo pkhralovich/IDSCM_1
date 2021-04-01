@@ -686,3 +686,11 @@ table {
 .empty-list {
     padding: 20px;
 }
+
+.search-button {
+    color: #0d6efd !important;
+}
+
+.search-button:hover {
+    color: #fff !important;
+}

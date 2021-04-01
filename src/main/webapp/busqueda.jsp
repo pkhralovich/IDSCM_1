@@ -16,7 +16,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Listado de vídeos</title>
+        <title>Filtrar Videos</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
         <link href="./css/main.css" rel="stylesheet">
     
@@ -30,8 +30,35 @@
         <div class="wrapper wrapper--w680 wrapper-grid">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title">Listado de vídeos</h2>
+                    <h2 class="title">Filtrar Videos</h2>
                     <div>
+                        <form action="<%= request.getContextPath() %>/buscarVideo" method="GET">
+                            <div class="input-group">
+                                <input type="search" class="form-control rounded" placeholder="Filtrar" name="value" />
+                                <button type="submit" class="search-button btn btn-outline-primary">Filtrar</button>
+                            </div>
+                            <div class="row">
+
+                                <div class="form-check col-sm">
+                                    <input class="form-check-input" type="radio" name="type" id="title">
+                                    <label class="form-check-label" for="title">
+                                      Búsqueda por Título
+                                    </label>
+                                  </div>
+                                <div class="form-check col-sm">
+                                    <input class="form-check-input" type="radio" name="type" id="author" checked>
+                                    <label class="form-check-label" for="author">
+                                      Búsqueda por Autor
+                                    </label>
+                                  </div>
+                                <div class="form-check col-sm">
+                                    <input class="form-check-input" type="radio" name="type" id="date" checked>
+                                    <label class="form-check-label" for="date">
+                                      Búsqueda por Fecha de Creación
+                                    </label>
+                                  </div>
+                            </div>
+                        </form>
                         <table align="center" class="table table-bordered" >
                             <thead class="thead-dark">
                                 <tr>
@@ -72,8 +99,7 @@
                         
                         <div class="p-t-15">
                             <button class="btn btn--radius-2 btn--blue m-b-15" type="submit" form="logout">Cerrar sesión</button>
-                            <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/busqueda'">Filtrar Videos</button>
-                            <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/registroVid'">Añadir vídeo</button>
+                            <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/videos'">Ver Todos</button>
                             
                             <form id="logout" action="<%= request.getContextPath() %>/logout" method="POST"/>
                         </div>
