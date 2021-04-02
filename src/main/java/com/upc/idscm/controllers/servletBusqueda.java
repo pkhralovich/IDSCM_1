@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.upc.idscm.controllers;
 
 import com.upc.idscm.tools.Pages;
-import isdcm.webservice.video.search.VideoSearchWS;
+import com.upc.isdcm_soap.Video;
+import com.upc.isdcm_soap.VideoSearchWS;
+import com.upc.isdcm_soap.VideoSearchWS_Service;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.annotation.MultipartConfig;
@@ -22,16 +20,16 @@ public class servletBusqueda extends HttpServlet {
             public static final String TYPE = "type";
             public static final String VALUE = "value";
     }
-    //TODO change the esdl route
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/WebApplicationUltraSophisticated.wsdl")
-    private VideoSearchWS service;
+    
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/IDSCM.wsdl")
+    private VideoSearchWS_Service service;
      
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         response.setContentType("text/html;charset=UTF-8");
-        //Validates the sesion
+        
         HttpSession session = request.getSession(false);
         if (session.getAttribute("Username") != null
                 && session.getAttribute("UserID") != null) {
@@ -48,50 +46,10 @@ public class servletBusqueda extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
-    /*private java.util.List<org.me.image.Image> searchByTitle(java.lang.String titol) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchByTitle(titol);
     }
 
-    private java.util.List<org.me.image.Image> searchbyAuthor(java.lang.String autor) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchbyAuthor(autor);
+    private List<Video> searchByTitle(java.lang.String titol) {
+        VideoSearchWS port = service.getVideoSearchWSPort();
+        return port.busquedaPorTitulo(titol, 0);
     }
-
-    private java.util.List<org.me.image.Image> searchbyCreaDate(java.lang.String datacreacio) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchbyCreaDate(datacreacio);
-    }
-
-    private Image searchbyId(int idImatge) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchbyId(idImatge);
-    }
-
-    private java.util.List<org.me.image.Image> searchbyKeywords(java.lang.String paraulaclau) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchbyKeywords(paraulaclau);
-    }
-
-    private java.util.List<org.me.image.Image> searchbyTitleandKeyword(java.lang.String titulo, java.lang.String paraulaclau) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        org.me.image.ImageWS port = service.getImageWSPort();
-        return port.searchbyTitleandKeyword(titulo, paraulaclau);
-    }
-*/
-    
-
 }
