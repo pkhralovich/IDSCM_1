@@ -6,6 +6,7 @@ import com.upc.isdcm_soap.VideoSearchWS;
 import com.upc.isdcm_soap.VideoSearchWS_Service;
 import java.io.IOException;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.annotation.MultipartConfig;
@@ -13,15 +14,14 @@ import javax.servlet.http.*;
 import javax.xml.ws.WebServiceRef;
 
 
-@WebServlet(name = "buscarImagen", urlPatterns = {"/buscarVideo"})
-@MultipartConfig
+@WebServlet(name = "servletBusqueda", urlPatterns = {"/busqueda"})
 public class servletBusqueda extends HttpServlet {
     private class PARAMS {
             public static final String TYPE = "type";
             public static final String VALUE = "value";
     }
     
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/IDSCM.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ISDCM_SOAP/VideoSearchWS.wsdl")
     private VideoSearchWS_Service service;
      
     @Override
@@ -34,11 +34,13 @@ public class servletBusqueda extends HttpServlet {
         if (session.getAttribute("Username") != null
                 && session.getAttribute("UserID") != null) {
             
-            String type = request.getParameter(servletBusqueda.PARAMS.TYPE);
-            String value = request.getParameter(servletBusqueda.PARAMS.VALUE);
-             
-            System.out.println(type + value);
-            response.sendRedirect(Pages.SEARCH_VIDEO);
+//            request.setAttribute("listVideo", listVideo);
+            getVideos(request);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(Pages.SEARCH_VIDEO);
+            dispatcher.include(request, response);
+            
+            
+//            response.sendRedirect(Pages.SEARCH_VIDEO);
         } else response.sendRedirect(Pages.LOGIN);
     }
 
@@ -48,8 +50,37 @@ public class servletBusqueda extends HttpServlet {
         return "Short description";
     }
 
-    private List<Video> searchByTitle(java.lang.String titol) {
+    private List<Video> searchByTitle(java.lang.String title, int user_id) {
         VideoSearchWS port = service.getVideoSearchWSPort();
-        return port.busquedaPorTitulo(titol, 0);
+
+        return port.busquedaPorTitulo(title, user_id);
+    }
+    
+    private List<Video> searchByAuthor(java.lang.String autor, int user_id) {
+        VideoSearchWS port = service.getVideoSearchWSPort();
+        return port.busquedaPorAutor(autor, user_id);
+    }
+    
+    private List<Video> searchByDate(String dia, String mes, String año, int user_id) {
+        VideoSearchWS port = service.getVideoSearchWSPort();
+        return port.busquedaPorFecha(dia, mes, año, user_id);
+    }
+    
+    public void getVideos(HttpServletRequest request) {
+        String searchType = request.getParameter("type");
+        Integer user_id = (Integer) request.getSession(false).getAttribute("UserID");
+        List <Video> listVideo = null;
+        
+        switch (searchType) {
+            case "1":
+                listVideo = searchByTitle(request.getParameter("value"), user_id);
+            case "2":
+                listVideo = searchByAuthor(request.getParameter("value"), user_id);
+            case "3":
+//               listVideo = searchByDate(user_id, );
+         
+        }
+        
+        request.setAttribute("listVideo", listVideo);
     }
 }

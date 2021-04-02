@@ -1,7 +1,7 @@
+<%@page import="com.upc.isdcm_soap.Video"%>
 <%@page import="com.upc.idscm.tools.Pages"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.upc.idscm.models.Video"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -32,27 +32,90 @@
                 <div class="card-body">
                     <h2 class="title">Filtrar Videos</h2>
                     <div>
-                        <form action="<%= request.getContextPath() %>/buscarVideo" method="GET">
-                            <div class="input-group">
+                        <form action="<%= request.getContextPath() %>/busqueda" method="GET" name="searchForm">
+                            <div class="input-group" id = "searchSelect">
                                 <input type="search" class="form-control rounded" placeholder="Filtrar" name="value" />
                                 <button type="submit" class="search-button btn btn-outline-primary">Filtrar</button>
+                            </div>
+<!--                                <div class="container">
+                                    <div class="row">
+                                      <div id="search" role="form" style="border:0">
+                                        <div class="col-md-3">
+                                          <ul class="nav nav-stacked">
+                                            <li><strong>Dia</strong></li>
+                                            <li>
+                                              <input type="text" class="form-control" value="" id="dateFrom" />
+                                            </li>
+                                          </ul>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                          <ul class="nav nav-stacked">
+                                            <li><strong>Mes</strong></li>
+                                            <li>
+                                              <input type="text" class="form-control" value="" id="dateTo" />
+                                            </li>
+                                          </ul>
+                                        </div>
+                                          
+                                        <div class="col-md-3">
+                                          <ul class="nav nav-stacked">
+                                            <li><strong>Año</strong></li>
+                                            <li>
+                                              <input type="text" class="form-control" value="2" id="dateFrom" />
+                                            </li>
+                                          </ul>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                          <ul class="nav nav-stacked">
+                                            <li>&nbsp;</li>
+                                            <li>
+                                              <button class="btn btn-primary" type="button" id="getJsonSrc">Search</button>
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>-->
+                            <div class="row" id = "dates" hidden>
+                               
+                                <div class="form-group row col-sm">
+                                    <input class="form-control rounded col-sm-6" type="number" min="1" max="31" name="day" id="day">
+                                    <label class="col-form-label col-sm-6" for="day">
+                                      Dia
+                                    </label>
+                                  </div>
+                                 <div class="form-group row col-sm">
+                                    <input class="form-control rounded col-sm-6" type="number" min="1" max="12" name="month" id="month" >
+                                    <label class="col-form-label col-sm-6" for="month">
+                                      Mes
+                                    </label>
+                                  </div>
+                                 <div class="form-group row col-sm">
+                                    <input class="form-control rounded col-sm-6" type="number" min="500" max="3000" name="year" id="year" >
+                                    <label class="col-sm-2 col-form-label col-sm-6" for="year">
+                                      Año
+                                    </label>
+                                  </div>
+                                <button type="submit" class="search-button btn btn-outline-primary col-sm">Filtrar</button>
                             </div>
                             <div class="row">
 
                                 <div class="form-check col-sm">
-                                    <input class="form-check-input" type="radio" name="type" id="title">
+                                    <input class="form-check-input" type="radio" name="type" id="title" value="1" checked>
                                     <label class="form-check-label" for="title">
                                       Búsqueda por Título
                                     </label>
                                   </div>
                                 <div class="form-check col-sm">
-                                    <input class="form-check-input" type="radio" name="type" id="author" checked>
+                                    <input class="form-check-input" type="radio" name="type" id="author" value="2">
                                     <label class="form-check-label" for="author">
                                       Búsqueda por Autor
                                     </label>
                                   </div>
                                 <div class="form-check col-sm">
-                                    <input class="form-check-input" type="radio" name="type" id="date" checked>
+                                    <input class="form-check-input" type="radio" name="type" id="date" value="3">
                                     <label class="form-check-label" for="date">
                                       Búsqueda por Fecha de Creación
                                     </label>
@@ -74,11 +137,10 @@
                             
                             <tbody>
                                 <%
-                                    List<Video> videos = new ArrayList<Video>();
-                                    if (request.getSession() != null && request.getSession().getAttribute("UserID") != null) {
-                                        videos = Video.getUserVideos((Integer) (request.getSession().getAttribute("UserID")));
-                                    }
-                                    
+                                    ArrayList<Video> videos
+                                          = (ArrayList<Video>) request.getAttribute("listVideo");
+//                                    for (Video s : listaVideos)
+//                                    List<Video> videos = getVideos(request);
                                     if (videos != null && videos.size() > 0) {
                                         for (Video v : videos) {                                
                                 %> 
@@ -87,7 +149,7 @@
                                         <td><%=v.getAuthor()%></td> 
                                         <td><%=v.getCreationDate()%></td> 
                                         <td><%=v.getDuration()%></td> 
-                                        <td><%=v.getPlays()%></td> 
+                                        <td><%=0%></td> 
                                         <td><%=v.getDescription()%></td> 
                                         <td><%=v.getFormat()%></td> 
                                     </tr> 
@@ -111,4 +173,27 @@
         </div>
     </div>
     </body>
+    <script>
+    var rad = document.searchForm.type;
+    var dates = document.getElementById("dates");
+    var search = document.getElementById("searchSelect");
+    var prev = null;
+    function OnChangeRadio() {
+            if (this !== prev) {
+                prev = this;
+                console.log(this.value);
+            }
+            if (this.value === "1" || this.value === "2"){
+                dates.hidden = true;
+                search.hidden = false;
+            } else {
+                dates.hidden = false;
+                search.hidden = true;
+            }
+        };
+    for (var i = 0; i < rad.length; i++) {
+        rad[i].addEventListener('change', OnChangeRadio);
+    }    
+    
+    </script>
 </html>
