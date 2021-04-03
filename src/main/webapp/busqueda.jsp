@@ -1,4 +1,4 @@
-<%@page import="com.upc.isdcm_soap.Video"%>
+<%@page import="com.upc.idscm.controllers.Video"%>
 <%@page import="com.upc.idscm.tools.Pages"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -34,66 +34,24 @@
                     <div>
                         <form action="<%= request.getContextPath() %>/busqueda" method="GET" name="searchForm">
                             <div class="input-group" id = "searchSelect">
-                                <input type="search" class="form-control rounded" placeholder="Filtrar" name="value" />
+                                <input type="search" class="form-control rounded" placeholder="Filtrar" name="value" value="${fn:escapeXml(param.value)}"/>
                                 <button type="submit" class="search-button btn btn-outline-primary">Filtrar</button>
                             </div>
-<!--                                <div class="container">
-                                    <div class="row">
-                                      <div id="search" role="form" style="border:0">
-                                        <div class="col-md-3">
-                                          <ul class="nav nav-stacked">
-                                            <li><strong>Dia</strong></li>
-                                            <li>
-                                              <input type="text" class="form-control" value="" id="dateFrom" />
-                                            </li>
-                                          </ul>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                          <ul class="nav nav-stacked">
-                                            <li><strong>Mes</strong></li>
-                                            <li>
-                                              <input type="text" class="form-control" value="" id="dateTo" />
-                                            </li>
-                                          </ul>
-                                        </div>
-                                          
-                                        <div class="col-md-3">
-                                          <ul class="nav nav-stacked">
-                                            <li><strong>Año</strong></li>
-                                            <li>
-                                              <input type="text" class="form-control" value="2" id="dateFrom" />
-                                            </li>
-                                          </ul>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                          <ul class="nav nav-stacked">
-                                            <li>&nbsp;</li>
-                                            <li>
-                                              <button class="btn btn-primary" type="button" id="getJsonSrc">Search</button>
-                                            </li>
-                                          </ul>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>-->
                             <div class="row" id = "dates" hidden>
-                               
                                 <div class="form-group row col-sm">
-                                    <input class="form-control rounded col-sm-6" type="number" min="1" max="31" name="day" id="day">
+                                    <input class="form-control rounded col-sm-6" type="number" min="1" max="31" name="day" id="day" value="${fn:escapeXml(param.day)}">
                                     <label class="col-form-label col-sm-6" for="day">
                                       Dia
                                     </label>
                                   </div>
                                  <div class="form-group row col-sm">
-                                    <input class="form-control rounded col-sm-6" type="number" min="1" max="12" name="month" id="month" >
+                                    <input class="form-control rounded col-sm-6" type="number" min="1" max="12" name="month" id="month" value="${fn:escapeXml(param.month)}">
                                     <label class="col-form-label col-sm-6" for="month">
                                       Mes
                                     </label>
                                   </div>
                                  <div class="form-group row col-sm">
-                                    <input class="form-control rounded col-sm-6" type="number" min="500" max="3000" name="year" id="year" >
+                                    <input class="form-control rounded col-sm-6" type="number" min="500" max="3000" name="year" id="year" value="${fn:escapeXml(param.year)}">
                                     <label class="col-sm-2 col-form-label col-sm-6" for="year">
                                       Año
                                     </label>
@@ -101,21 +59,20 @@
                                 <button type="submit" class="search-button btn btn-outline-primary col-sm">Filtrar</button>
                             </div>
                             <div class="row">
-
                                 <div class="form-check col-sm">
-                                    <input class="form-check-input" type="radio" name="type" id="title" value="1" checked>
+                                    <input class="form-check-input" type="radio" name="type" id="title" value="1"/>
                                     <label class="form-check-label" for="title">
                                       Búsqueda por Título
                                     </label>
                                   </div>
                                 <div class="form-check col-sm">
-                                    <input class="form-check-input" type="radio" name="type" id="author" value="2">
+                                    <input class="form-check-input" type="radio" name="type" id="author" value="2"/>
                                     <label class="form-check-label" for="author">
                                       Búsqueda por Autor
                                     </label>
                                   </div>
                                 <div class="form-check col-sm">
-                                    <input class="form-check-input" type="radio" name="type" id="date" value="3">
+                                    <input class="form-check-input" type="radio" name="type" id="date" value="3"/>
                                     <label class="form-check-label" for="date">
                                       Búsqueda por Fecha de Creación
                                     </label>
@@ -137,10 +94,7 @@
                             
                             <tbody>
                                 <%
-                                    ArrayList<Video> videos
-                                          = (ArrayList<Video>) request.getAttribute("listVideo");
-//                                    for (Video s : listaVideos)
-//                                    List<Video> videos = getVideos(request);
+                                    ArrayList<Video> videos = (ArrayList<Video>) request.getAttribute("listVideo");
                                     if (videos != null && videos.size() > 0) {
                                         for (Video v : videos) {                                
                                 %> 
@@ -149,12 +103,12 @@
                                         <td><%=v.getAuthor()%></td> 
                                         <td><%=v.getCreationDate()%></td> 
                                         <td><%=v.getDuration()%></td> 
-                                        <td><%=0%></td> 
+                                        <td><%=v.getPlays()%></td> 
                                         <td><%=v.getDescription()%></td> 
                                         <td><%=v.getFormat()%></td> 
                                     </tr> 
                                 <% }} else { %>
-                                <tr> <td colspan="7"> <div class="empty-list"> No se han dado de alta vídeos! </div> </td> </tr>
+                                <tr> <td colspan="7"> <div class="empty-list"> No se han encontrado vídeos con estos parámetros de búsqueda! </div> </td> </tr>
                                 <% } %>
                             </tbody>
                         </table>
@@ -174,26 +128,75 @@
     </div>
     </body>
     <script>
+    document.searchForm.addEventListener('submit', function () {
+        var allInputs = document.searchForm.getElementsByTagName('input');
+
+        for (var i = 0; i < allInputs.length; i++) {
+            var input = allInputs[i];
+
+            if ((input.name && !input.value) || dontSend(input)) {
+                input.name = '';
+            }
+        }
+    });
+    
+    function dontSend(input) {
+        if (current_radio && input.name !== "type") {
+            if (current_radio.value === "1" || current_radio.value === "2") {
+                return input.name === "year" || input.name === "month" || input.name === "day";
+            } else {
+                return input.name === "value";
+            }
+        }
+    }
+    
     var rad = document.searchForm.type;
     var dates = document.getElementById("dates");
     var search = document.getElementById("searchSelect");
-    var prev = null;
+    var current_radio = null;
+    
     function OnChangeRadio() {
-            if (this !== prev) {
-                prev = this;
-                console.log(this.value);
-            }
-            if (this.value === "1" || this.value === "2"){
-                dates.hidden = true;
-                search.hidden = false;
-            } else {
-                dates.hidden = false;
-                search.hidden = true;
-            }
-        };
+        if (this !== current_radio) {
+            current_radio = this;
+        }
+        if (this.value === "1" || this.value === "2"){
+            dates.hidden = true;
+            search.hidden = false;
+        } else {
+            dates.hidden = false;
+            search.hidden = true;
+        }
+    };
+        
     for (var i = 0; i < rad.length; i++) {
         rad[i].addEventListener('change', OnChangeRadio);
     }    
     
+    let url = new URL(window.location.href);
+    let type = url.searchParams.get('type');
+    if (type) {
+        switch (type) {
+            case "1": {
+                document.getElementById("title").checked = true;
+                break;
+            }
+            case "2": {
+                document.getElementById("author").checked = true;
+                break;
+            }
+            case "3": {
+                document.getElementById("date").checked = true;
+                dates.hidden = false;
+                search.hidden = true;
+                break;
+            }
+            default: {
+                document.getElementById("title").checked = true;
+                break; 
+            }
+        }
+    } else {
+        document.getElementById("title").checked = true;
+    }
     </script>
 </html>

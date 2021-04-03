@@ -1,15 +1,11 @@
 package com.upc.idscm.controllers;
 
 import com.upc.idscm.tools.Pages;
-import com.upc.isdcm_soap.Video;
-import com.upc.isdcm_soap.VideoSearchWS;
-import com.upc.isdcm_soap.VideoSearchWS_Service;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 import javax.xml.ws.WebServiceRef;
 
@@ -34,13 +30,9 @@ public class servletBusqueda extends HttpServlet {
         if (session.getAttribute("Username") != null
                 && session.getAttribute("UserID") != null) {
             
-//            request.setAttribute("listVideo", listVideo);
             getVideos(request);
             RequestDispatcher dispatcher = request.getRequestDispatcher(Pages.SEARCH_VIDEO);
             dispatcher.include(request, response);
-            
-            
-//            response.sendRedirect(Pages.SEARCH_VIDEO);
         } else response.sendRedirect(Pages.LOGIN);
     }
 
@@ -52,7 +44,6 @@ public class servletBusqueda extends HttpServlet {
 
     private List<Video> searchByTitle(java.lang.String title, int user_id) {
         VideoSearchWS port = service.getVideoSearchWSPort();
-
         return port.busquedaPorTitulo(title, user_id);
     }
     
@@ -66,21 +57,34 @@ public class servletBusqueda extends HttpServlet {
         return port.busquedaPorFecha(dia, mes, año, user_id);
     }
     
+    private List<Video> getAllVideos(int user_id) {
+        VideoSearchWS port = service.getVideoSearchWSPort();
+        return port.busquedaTodos(user_id);
+    }
+    
     public void getVideos(HttpServletRequest request) {
         String searchType = request.getParameter("type");
         Integer user_id = (Integer) request.getSession(false).getAttribute("UserID");
         List <Video> listVideo = null;
         
-        switch (searchType) {
-            case "1":
-                listVideo = searchByTitle(request.getParameter("value"), user_id);
-            case "2":
-                listVideo = searchByAuthor(request.getParameter("value"), user_id);
-            case "3":
-//               listVideo = searchByDate(user_id, );
-         
+        if (searchType == null) {
+            listVideo = getAllVideos(user_id);
+        } else {
+            switch (searchType) {
+                case "1":
+                    listVideo = searchByTitle(request.getParameter("value"), user_id);
+                    break;
+                case "2":
+                    listVideo = searchByAuthor(request.getParameter("value"), user_id);
+                    break;
+                case "3":
+                    listVideo = searchByDate(request.getParameter("day"), 
+                                              request.getParameter("month"),
+                                              request.getParameter("year"),
+                                              user_id); 
+                    break;
+            }
         }
-        
         request.setAttribute("listVideo", listVideo);
     }
 }

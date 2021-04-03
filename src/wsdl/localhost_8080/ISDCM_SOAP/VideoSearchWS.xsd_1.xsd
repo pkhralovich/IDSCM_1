@@ -1,25 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3 (RELEASE-2.4.3-ad3323c; 2019-01-21T17:46:06+0000) JAXWS-RI/2.3.2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown. --><xs:schema xmlns:tns="http://isdcm_soap.upc.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://isdcm_soap.upc.com/">
 
-<xs:element name="BusquedaPorAutor" type="tns:BusquedaPorAutor"/>
+<xs:element name="busquedaPorAutor" type="tns:busquedaPorAutor"/>
 
-<xs:element name="BusquedaPorAutorResponse" type="tns:BusquedaPorAutorResponse"/>
+<xs:element name="busquedaPorAutorResponse" type="tns:busquedaPorAutorResponse"/>
 
-<xs:element name="BusquedaPorFecha" type="tns:BusquedaPorFecha"/>
+<xs:element name="busquedaPorFecha" type="tns:busquedaPorFecha"/>
 
-<xs:element name="BusquedaPorFechaResponse" type="tns:BusquedaPorFechaResponse"/>
+<xs:element name="busquedaPorFechaResponse" type="tns:busquedaPorFechaResponse"/>
 
-<xs:element name="BusquedaPorTitulo" type="tns:BusquedaPorTitulo"/>
+<xs:element name="busquedaPorTitulo" type="tns:busquedaPorTitulo"/>
 
-<xs:element name="BusquedaPorTituloResponse" type="tns:BusquedaPorTituloResponse"/>
+<xs:element name="busquedaPorTituloResponse" type="tns:busquedaPorTituloResponse"/>
 
-<xs:complexType name="BusquedaPorAutor">
+<xs:element name="busquedaTodos" type="tns:busquedaTodos"/>
+
+<xs:element name="busquedaTodosResponse" type="tns:busquedaTodosResponse"/>
+
+<xs:complexType name="busquedaPorTitulo">
 <xs:sequence>
-<xs:element name="Autor" type="xs:string" minOccurs="0"/>
-<xs:element name="Id" type="xs:int"/>
+<xs:element name="titulo" type="xs:string" minOccurs="0"/>
+<xs:element name="user_id" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="BusquedaPorAutorResponse">
+<xs:complexType name="busquedaPorTituloResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:video" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
@@ -28,41 +32,50 @@
 <xs:complexType name="video">
 <xs:sequence>
 <xs:element name="author" type="xs:string" minOccurs="0"/>
-<xs:element name="creationDate" type="tns:date" minOccurs="0"/>
+<xs:element name="creationDate" type="xs:string" minOccurs="0"/>
 <xs:element name="description" type="xs:string" minOccurs="0"/>
 <xs:element name="duration" type="xs:string" minOccurs="0"/>
 <xs:element name="format" type="xs:string" minOccurs="0"/>
+<xs:element name="plays" type="xs:string" minOccurs="0"/>
 <xs:element name="title" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="date">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="BusquedaPorTitulo">
+<xs:complexType name="busquedaTodos">
 <xs:sequence>
-<xs:element name="Titulo" type="xs:string" minOccurs="0"/>
-<xs:element name="Id" type="xs:int"/>
+<xs:element name="user_id" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="BusquedaPorTituloResponse">
+<xs:complexType name="busquedaTodosResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:video" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="BusquedaPorFecha">
+<xs:complexType name="busquedaPorAutor">
+<xs:sequence>
+<xs:element name="autor" type="xs:string" minOccurs="0"/>
+<xs:element name="user_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="busquedaPorAutorResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:video" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="busquedaPorFecha">
 <xs:sequence>
 <xs:element name="dia" type="xs:string" minOccurs="0"/>
 <xs:element name="mes" type="xs:string" minOccurs="0"/>
 <xs:element name="año" type="xs:string" minOccurs="0"/>
-<xs:element name="Id" type="xs:int"/>
+<xs:element name="user_id" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="BusquedaPorFechaResponse">
+<xs:complexType name="busquedaPorFechaResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:video" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>

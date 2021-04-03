@@ -116,7 +116,7 @@
                             <wsdlFiles>
                                 <wsdlFile>localhost_8080/ISDCM_SOAP/VideoSearchWS.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName></packageName>
+                            <packageName>com.upc.idscm.controllers</packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>
