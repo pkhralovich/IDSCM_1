@@ -33,50 +33,56 @@
                     <h2 class="title">Filtrar Videos</h2>
                     <div>
                         <form action="<%= request.getContextPath() %>/busqueda" method="GET" name="searchForm">
-                            <div class="input-group" id = "searchSelect">
-                                <input type="search" class="form-control rounded" placeholder="Filtrar" name="value" value="${fn:escapeXml(param.value)}"/>
+                            <fieldset class="form-group border p-3 input-group">
+                                <div class="row">
+                                    <label class="form-check-label col-sm" style="">
+                                          Tipo de búsqueda:
+                                    </label>
+                                    <div class="form-group col-sm">
+                                        <input class="form-check-input" type="radio" name="type" id="title" value="1"/>
+                                        <label class="form-check-label" for="title">
+                                          Búsqueda por Título
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-sm">
+                                        <input class="form-check-input" type="radio" name="type" id="author" value="2"/>
+                                        <label class="form-check-label" for="author">
+                                          Búsqueda por Autor
+                                        </label>
+                                      </div>
+                                    <div class="form-group col-sm">
+                                        <input class="form-check-input" type="radio" name="type" id="date" value="3"/>
+                                        <label class="form-check-label" for="date">
+                                          Búsqueda por Fecha de Creación
+                                        </label>
+                                      </div>
+                                </div>
+                            </fieldset>
+                            
+                            <div class="input-group" id="searchSelect">
+                                <input type="search" class="form-control rounded input--style-4" placeholder="Filtrar" name="value" value="${fn:escapeXml(param.value)}"/>
                                 <button type="submit" class="search-button btn btn-outline-primary">Filtrar</button>
                             </div>
-                            <div class="row" id = "dates" hidden>
+                            <div class="input-group" id="dates" hidden>
                                 <div class="form-group row col-sm">
-                                    <input class="form-control rounded col-sm-6" type="number" min="1" max="31" name="day" id="day" value="${fn:escapeXml(param.day)}">
-                                    <label class="col-form-label col-sm-6" for="day">
-                                      Dia
-                                    </label>
-                                  </div>
-                                 <div class="form-group row col-sm">
-                                    <input class="form-control rounded col-sm-6" type="number" min="1" max="12" name="month" id="month" value="${fn:escapeXml(param.month)}">
-                                    <label class="col-form-label col-sm-6" for="month">
-                                      Mes
-                                    </label>
-                                  </div>
-                                 <div class="form-group row col-sm">
-                                    <input class="form-control rounded col-sm-6" type="number" min="500" max="3000" name="year" id="year" value="${fn:escapeXml(param.year)}">
-                                    <label class="col-sm-2 col-form-label col-sm-6" for="year">
-                                      Año
-                                    </label>
-                                  </div>
-                                <button type="submit" class="search-button btn btn-outline-primary col-sm">Filtrar</button>
-                            </div>
-                            <div class="row">
-                                <div class="form-check col-sm">
-                                    <input class="form-check-input" type="radio" name="type" id="title" value="1"/>
-                                    <label class="form-check-label" for="title">
-                                      Búsqueda por Título
-                                    </label>
-                                  </div>
-                                <div class="form-check col-sm">
-                                    <input class="form-check-input" type="radio" name="type" id="author" value="2"/>
-                                    <label class="form-check-label" for="author">
-                                      Búsqueda por Autor
-                                    </label>
-                                  </div>
-                                <div class="form-check col-sm">
-                                    <input class="form-check-input" type="radio" name="type" id="date" value="3"/>
-                                    <label class="form-check-label" for="date">
-                                      Búsqueda por Fecha de Creación
-                                    </label>
-                                  </div>
+                                    <label class="col-sm-4 col-form-label" for="day">Dia</label>
+                                    <div class="col-sm-6">
+                                        <input class="input--style-4" type="number" min="1" max="31" name="day" id="day" value="${fn:escapeXml(param.day)}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row col-sm">
+                                    <label class="col-sm-4 col-form-label" for="month">Mes</label>
+                                    <div class="col-sm-6">
+                                        <input class="input--style-4" type="number" min="1" max="12" name="month" id="month" value="${fn:escapeXml(param.month)}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row col-sm">
+                                    <label class="col-sm-4 col-form-label" for="year">Año</label>
+                                    <div class="col-sm-6">
+                                        <input class="input--style-4" type="number" min="500" max="3000" name="year" id="year" value="${fn:escapeXml(param.year)}"/>
+                                    </div>
+                                </div>
+                                <button type="submit" class="search-button btn btn-outline-primary col-sm-2">Filtrar</button>
                             </div>
                         </form>
                         <table align="center" class="table table-bordered" >
