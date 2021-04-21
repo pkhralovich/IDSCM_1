@@ -17,10 +17,11 @@ public class Video {
     private String description;
     private int user_id;
     private String format;
+    private String path;
     
     public Video(String title, String author, Date creation_date,
                     String duration, long plays, String description, int user_id,
-                    String format) {
+                    String format, String path) {
         this.title = title;
         this.author = author;
         this.creation_date = creation_date;
@@ -29,6 +30,7 @@ public class Video {
         this.description = description;
         this.user_id = user_id;
         this.format = format;
+        this.path = path;
     }
  
     public String getTitle() {
@@ -63,6 +65,10 @@ public class Video {
         return this.format;
     }
     
+    public String getPath() {
+        return this.path;
+    }
+    
     public void setTitle(String value) {
         this.title = value;
     }
@@ -95,9 +101,13 @@ public class Video {
         this.format = format;
     }
     
+    public void setPath(String path) {
+        this.path = path;
+    }
+    
     private static final String QUERY_USER_VIDEOS = "SELECT * FROM videos WHERE user_id = ?";
     private static final String QUERY_TITLE_USED = "SELECT * FROM videos WHERE title = ? AND user_id = ?";
-    private static final String QUERY_INSERT = "INSERT INTO Videos (title, author, creation_date, duration, plays, description, format, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String QUERY_INSERT = "INSERT INTO Videos (title, author, creation_date, duration, plays, description, format, user_id, path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     public class MAX_LENGTH {
         public static final int TITLE = 45;
@@ -106,6 +116,7 @@ public class Video {
         public static final long PLAYS = Long.MAX_VALUE;
         public static final int DESCRIPTION = 45;
         public static final int FORMAT = 45;
+        public static final int PATH = 300;
     }
     
     public class FIELDS {
@@ -118,6 +129,7 @@ public class Video {
         public static final String DESCRIPTION = "description";
         public static final String USERID = "user_id";
         public static final String FORMAT = "format";
+        public static final String PATH = "path";
     }
     
     public static List<Video> getUserVideos(int user) throws SQLException {
@@ -137,8 +149,9 @@ public class Video {
             String description = result.getString(FIELDS.DESCRIPTION);
             int user_id = result.getInt(FIELDS.USERID);
             String format = result.getString(FIELDS.FORMAT);
+            String path = result.getString(FIELDS.PATH);
             
-            oRes.add(new Video(title, author, creation_date, duration, plays, description, user_id, format));
+            oRes.add(new Video(title, author, creation_date, duration, plays, description, user_id, format, path));
         }
         
         return oRes;
@@ -163,7 +176,9 @@ public class Video {
         statement.setString(6, video.getDescription());
         statement.setString(7, video.getFormat());
         statement.setInt(8, video.getUser());
+        statement.setString(9, video.getPath());
         
         return statement.executeUpdate() > 0;
     }
+    
 }

@@ -27,6 +27,7 @@ public class servletRegistroVid extends HttpServlet {
         public static final String PLAYS = "plays";
         public static final String DESCRIPTION = "description";
         public static final String FORMAT = "format";
+        public static final String PATH = "path";
     }
     
     private class ERRORS {
@@ -37,6 +38,7 @@ public class servletRegistroVid extends HttpServlet {
         public static final String PLAYS = "plays_error";
         public static final String DESCRIPTION = "description_error";
         public static final String FORMAT = "format_error";
+        public static final String PATH = "path_error";
     }
     
     private class ACTIONS {
@@ -103,6 +105,7 @@ public class servletRegistroVid extends HttpServlet {
             String string_plays = request.getParameter(PARAMS.PLAYS);
             String description = request.getParameter(PARAMS.DESCRIPTION);
             String format = request.getParameter(PARAMS.FORMAT);
+            String path = request.getParameter(PARAMS.PATH);
             
             long plays = string_plays != null && !string_plays.isEmpty() ? Long.parseLong(string_plays) : 0;
             int user_id = (Integer) session.getAttribute("UserID");
@@ -115,7 +118,7 @@ public class servletRegistroVid extends HttpServlet {
             }
             
             Video video = new Video(title, author, creation_date, duration,
-                                    plays, description, user_id, format);
+                                    plays, description, user_id, format, path);
             if (!isValidVideo(video, request)) {
                 request.getRequestDispatcher(Pages.NEW_VIDEO).forward(request, response);
             } else {
@@ -139,6 +142,7 @@ public class servletRegistroVid extends HttpServlet {
         isValid &= validatePlays(video.getPlays(), request);
         isValid &= validateDescription(video.getDescription(), request);
         isValid &= validateFormat(video.getFormat(), request);
+        isValid &= validatePath(video.getPath(), request);
         
         return isValid;
     }
@@ -210,6 +214,16 @@ public class servletRegistroVid extends HttpServlet {
         
         return true;
     }
+    
+    private boolean validatePath(String path, HttpServletRequest request) {
+        if (path != null && path.length() > Video.MAX_LENGTH.PATH) {
+            request.setAttribute(ERRORS.PATH, "Longitud máxima del path superada");
+            return false;
+        }
+        
+        return true;
+    }
+    
     
     @Override
     public String getServletInfo() {
