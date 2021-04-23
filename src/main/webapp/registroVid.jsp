@@ -91,7 +91,7 @@
                         <div class="row row-space">
                             <div class="input-group">
                                 <label class="label">Ruta</label>
-                                <input id="path" placeholder="Enlace a la película más larga de la história" class="input--style-4" type="text" name="path" value="${fn:escapeXml(param.path)}">
+                                <input id="path" placeholder="Enlace a la película más larga de la história" class="input--style-4" type="url" name="path" value="${fn:escapeXml(param.path)}">
                                 <label class="label label-error" id="path-error">${path_error}</label>
                             </div>
                         </div>
