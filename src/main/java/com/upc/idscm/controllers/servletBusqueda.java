@@ -1,6 +1,9 @@
 package com.upc.idscm.controllers;
 
 import com.upc.idscm.tools.Pages;
+import com.upc.isdcm_soap.Video;
+import com.upc.isdcm_soap.VideoSearchWS;
+import com.upc.isdcm_soap.VideoSearchWS_Service;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;

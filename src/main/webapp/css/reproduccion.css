@@ -1,0 +1,43 @@
+.page-wrapper {
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    min-width: 100vw;
+}
+
+.page-wrapper > div {
+    width: 65%;
+}
+
+.plyr {
+    margin: 0px 30px 30px 30px;
+}
+
+.wrapper-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.video-info {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    color: #525252;
+    margin-bottom: 30px;
+}
+
+.video-label {
+    margin-right: 5px;
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+.video-label:first-child{
+    margin-left: 0px;
+}
+
+.error {
+    margin-bottom: 20px;
+    font-size: 18px;
+}

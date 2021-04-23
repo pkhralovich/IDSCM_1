@@ -42,6 +42,7 @@
                                     <th>Reproducciones</th>
                                     <th>Descripcion</th>
                                     <th>Formato</th>
+                                    <!-- <th>Ruta</th> -->
                                 </tr>
                             </thead>
                             
@@ -55,17 +56,21 @@
                                     if (videos != null && videos.size() > 0) {
                                         for (Video v : videos) {                                
                                 %> 
-                                    <tr> 
+                                    <tr onclick="onClickRow(<%=v.getId()%>)"> 
                                         <td><%=v.getTitle()%></td> 
                                         <td><%=v.getAuthor()%></td> 
                                         <td><%=v.getCreationDate()%></td> 
                                         <td><%=v.getDuration()%></td> 
                                         <td><%=v.getPlays()%></td> 
                                         <td><%=v.getDescription()%></td> 
-                                        <td><%=v.getFormat()%></td> 
+                                        <td><%=v.getFormat()%></td>
                                     </tr> 
                                 <% }} else { %>
-                                <tr> <td colspan="7"> <div class="empty-list"> No se han dado de alta vídeos! </div> </td> </tr>
+                                    <tr class="empty-message-row"> 
+                                        <td colspan="7"> 
+                                            <div class="empty-list"> No se han dado de alta vídeos! </div> 
+                                        </td> 
+                                    </tr>
                                 <% } %>
                             </tbody>
                         </table>
@@ -85,4 +90,10 @@
         </div>
     </div>
     </body>
+    
+    <script>
+        function onClickRow(video_id) {
+            window.location.href = "<%= request.getContextPath() %>/reproduccion.jsp?video=" + video_id;
+        }
+    </script>
 </html>

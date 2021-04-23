@@ -1,4 +1,5 @@
-<%@page import="com.upc.idscm.controllers.Video"%>
+
+<%@page import="com.upc.isdcm_soap.Video"%>
 <%@page import="com.upc.idscm.tools.Pages"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -104,17 +105,21 @@
                                     if (videos != null && videos.size() > 0) {
                                         for (Video v : videos) {                                
                                 %> 
-                                    <tr> 
+                                    <tr onclick="onClickRow(<%=v.getId()%>)"> 
                                         <td><%=v.getTitle()%></td> 
                                         <td><%=v.getAuthor()%></td> 
                                         <td><%=v.getCreationDate()%></td> 
                                         <td><%=v.getDuration()%></td> 
                                         <td><%=v.getPlays()%></td> 
                                         <td><%=v.getDescription()%></td> 
-                                        <td><%=v.getFormat()%></td> 
+                                        <td><%=v.getFormat()%></td>
                                     </tr> 
                                 <% }} else { %>
-                                <tr> <td colspan="7"> <div class="empty-list"> No se han encontrado vídeos con estos parámetros de búsqueda! </div> </td> </tr>
+                                    <tr class="empty-message-row">
+                                        <td colspan="7">
+                                            <div class="empty-list"> No se han encontrado vídeos con estos parámetros de búsqueda! </div>
+                                        </td>
+                                    </tr>
                                 <% } %>
                             </tbody>
                         </table>
@@ -134,6 +139,10 @@
     </div>
     </body>
     <script>
+    function onClickRow(video_id) {
+        window.location.href = "<%= request.getContextPath() %>/reproduccion.jsp?video=" + video_id;
+    }
+        
     document.searchForm.addEventListener('submit', function () {
         var allInputs = document.searchForm.getElementsByTagName('input');
 

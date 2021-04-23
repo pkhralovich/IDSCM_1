@@ -88,6 +88,13 @@
                             </div>
                         </div>
                         
+                        <div class="row row-space">
+                            <div class="input-group">
+                                <label class="label">Ruta</label>
+                                <input id="path" placeholder="Enlace a la película más larga de la história" class="input--style-4" type="text" name="path" value="${fn:escapeXml(param.path)}">
+                                <label class="label label-error" id="path-error">${path_error}</label>
+                            </div>
+                        </div>
                     </form>
                     <div class="p-t-15">
                         <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = './listadoVid.jsp'">Cancelar</button>
@@ -108,9 +115,11 @@
         try {
             var author = document.getElementById("author").value;
             var title = document.getElementById("title").value;
+            var path = document.getElementById("path").value;
 
             var valid_form = isNotEmpty(author, "author-error");
             valid_form = isNotEmpty(title, "title-error") && valid_form;
+            valid_form = isValidProvider(path, "path-error") && valid_form;
 
             return valid_form;
         } catch (e) {
@@ -126,6 +135,25 @@
         }
         
         return true;
+    }
+    
+    function isValidProvider(value, error_id) {
+        if (isNotEmpty(value, error_id)) {
+            if (!getProvider(value)) {
+                document.getElementById(error_id).innerHTML = "El vídeo debe ser de Vimeo o Youtube";
+                return false;
+            } else return true;
+        }
+        
+        return false;
+    }
+    
+    function getProvider(path) {
+        if (path) {
+            if (path.includes("youtube.com")) return "youtube";
+            else if (path.includes("vimeo.com")) return "vimeo";
+            else return undefined;
+        } else return undefined;
     }
     </script>
 </html>

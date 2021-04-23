@@ -36,6 +36,8 @@
 <xs:element name="description" type="xs:string" minOccurs="0"/>
 <xs:element name="duration" type="xs:string" minOccurs="0"/>
 <xs:element name="format" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:int"/>
+<xs:element name="path" type="xs:string" minOccurs="0"/>
 <xs:element name="plays" type="xs:string" minOccurs="0"/>
 <xs:element name="title" type="xs:string" minOccurs="0"/>
 </xs:sequence>

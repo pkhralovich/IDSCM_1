@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "servletRegistroVid", urlPatterns = {"/videos", "/registroVid"})
 public class servletRegistroVid extends HttpServlet {
     private class PARAMS {
+        public static final String ID = "id";
         public static final String TITLE = "title";
         public static final String AUTHOR = "author";
         public static final String CREATION_DATE = "creation_date";
@@ -117,7 +118,7 @@ public class servletRegistroVid extends HttpServlet {
                 Logger.getLogger(servletRegistroVid.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            Video video = new Video(title, author, creation_date, duration,
+            Video video = new Video(-1, title, author, creation_date, duration,
                                     plays, description, user_id, format, path);
             if (!isValidVideo(video, request)) {
                 request.getRequestDispatcher(Pages.NEW_VIDEO).forward(request, response);

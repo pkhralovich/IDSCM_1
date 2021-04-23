@@ -11,58 +11,49 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link href="https://vjs.zencdn.net/7.7.5/video-js.css" rel="stylesheet" />
-        <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js'></script>
-        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script>
-        <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
-        <script src='reproduccion.js'></script>
-
-        <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-        <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Reproduccion</title>
+        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link href="./css/main.css" rel="stylesheet">
+        <link href="./css/reproduccion.css" rel="stylesheet">
+        
+        <script src='./javascript/reproduccion.js'></script>
+
+        <link rel="stylesheet" href="https://cdn.plyr.io/3.6.7/plyr.css" />
+        <script src="https://cdn.plyr.io/3.6.7/plyr.js"></script>
+        
+        <link rel="icon" type="image/png" href="./images/favicon.png">
+        <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+        
+        <script>
+            onDocumentReady(<%=request.getSession(false).getAttribute("UserID")%>);
+        </script>
     </head>
     <body>
-        <h1 align="center">Bienvenido <%= session.getAttribute("Username")%></h1>
-        <div class="container">
-            <div class="container">
-                <span id="msg"></span></br>
-                <b>Autor: </b> <span id="autor"></span>
-                <br><b>Video: </b> <span id="name"></span>
-
+        <div class="page-wrapper bg-gra-02 font-poppins">
+            <div class="wrapper wrapper--w680 wrapper-grid">
+                <div class="player card card-4">
+                    <div id="content">
+                        <h2 class="title">Reproducción de vídeo</h2>
+                        <div id="player" class="js-player"></div>
+                        <div class="video-info">
+                            <p class="video-label">Reproducciones: </p> <p id="views"></p>
+                            <p class="video-label">Duracion:       </p> <p id="time" ></p>
+                        </div>
+                        <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/videos'">Ver listado</button>
+                    </div>
+                    <div id="error" hidden>
+                        <h2 class="title">Vídeo no encontrado</h2>
+                        <div>
+                            <p id="error-message" class="error">El vídeo al que has intentado acceder ya no se encuentra disponible. Haz click aquí para volver a la pantalla principal.</p>
+                            <div class="p-t-15">
+                                <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/videos'">Ir al listado de vídeos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="container" id="video">
-                <video
-                    id="my-video"
-                    class="video-js"
-                    controls
-                    preload="none"
-                    width="640"
-                    height="264"
-                    data-setup="{}"
-                    >
-                    <source id="src" src="MY_VIDEO2.mp4" type="video/mp4" />
-                    <p class="vjs-no-js">
-                        To view this video please enable JavaScript, and consider upgrading to a
-                        web browser that
-                        <a href="https://videojs.com/html5-video-support/" target="_blank"
-                           >supports HTML5 video</a
-                        >
-                    </p>
-                </video>
-
-            </div>
-            <div class="container">
-                <b>Reproducciones:</b> <span id="views"></span>
-                <br><b>Duracion:</b><span id="time"></span>
-            </div>
-
         </div>
-                <form action="servletRegistroVid" method="POST" align="center">
-                    <input type="submit" name="cancelarVideo" value="Volver" class="btn btn-secondary"><br><br>
-                </form>
-        <script src="https://vjs.zencdn.net/7.7.5/video.js"></script>
     </body>
-
 </html>

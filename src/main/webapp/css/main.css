@@ -719,3 +719,13 @@ input[type="radio"] {
 #searchSelect > button {
     margin-left: 1rem;
 }
+
+tbody > tr:hover:not(.empty-message-row) {
+    cursor: pointer;
+    background: rgb(252, 44, 119, 0.3);
+}
+
+.player .title {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}

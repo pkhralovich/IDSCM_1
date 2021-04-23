@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Video {
+    private int id;
     private String title;
     private String author;
     private Date creation_date;
@@ -19,9 +20,10 @@ public class Video {
     private String format;
     private String path;
     
-    public Video(String title, String author, Date creation_date,
+    public Video(int id, String title, String author, Date creation_date,
                     String duration, long plays, String description, int user_id,
                     String format, String path) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.creation_date = creation_date;
@@ -33,6 +35,10 @@ public class Video {
         this.path = path;
     }
  
+    public int getId() {
+        return this.id;
+    }
+    
     public String getTitle() {
         return this.title;
     }
@@ -67,6 +73,10 @@ public class Video {
     
     public String getPath() {
         return this.path;
+    }
+    
+    public void setId(int value) {
+        this.id = value;
     }
     
     public void setTitle(String value) {
@@ -151,7 +161,7 @@ public class Video {
             String format = result.getString(FIELDS.FORMAT);
             String path = result.getString(FIELDS.PATH);
             
-            oRes.add(new Video(title, author, creation_date, duration, plays, description, user_id, format, path));
+            oRes.add(new Video(id, title, author, creation_date, duration, plays, description, user_id, format, path));
         }
         
         return oRes;
