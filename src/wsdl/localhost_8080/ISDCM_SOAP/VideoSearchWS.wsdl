@@ -4,6 +4,18 @@
 <xsd:import namespace="http://isdcm_soap.upc.com/" schemaLocation="http://localhost:8080/ISDCM_SOAP/VideoSearchWS?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="busquedaPorTitulo">
+<part name="parameters" element="tns:busquedaPorTitulo"/>
+</message>
+<message name="busquedaPorTituloResponse">
+<part name="parameters" element="tns:busquedaPorTituloResponse"/>
+</message>
+<message name="busquedaTodos">
+<part name="parameters" element="tns:busquedaTodos"/>
+</message>
+<message name="busquedaTodosResponse">
+<part name="parameters" element="tns:busquedaTodosResponse"/>
+</message>
 <message name="busquedaPorAutor">
 <part name="parameters" element="tns:busquedaPorAutor"/>
 </message>
@@ -16,19 +28,15 @@
 <message name="busquedaPorFechaResponse">
 <part name="parameters" element="tns:busquedaPorFechaResponse"/>
 </message>
-<message name="busquedaTodos">
-<part name="parameters" element="tns:busquedaTodos"/>
-</message>
-<message name="busquedaTodosResponse">
-<part name="parameters" element="tns:busquedaTodosResponse"/>
-</message>
-<message name="busquedaPorTitulo">
-<part name="parameters" element="tns:busquedaPorTitulo"/>
-</message>
-<message name="busquedaPorTituloResponse">
-<part name="parameters" element="tns:busquedaPorTituloResponse"/>
-</message>
 <portType name="VideoSearchWS">
+<operation name="busquedaPorTitulo">
+<input wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaPorTituloRequest" message="tns:busquedaPorTitulo"/>
+<output wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaPorTituloResponse" message="tns:busquedaPorTituloResponse"/>
+</operation>
+<operation name="busquedaTodos">
+<input wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaTodosRequest" message="tns:busquedaTodos"/>
+<output wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaTodosResponse" message="tns:busquedaTodosResponse"/>
+</operation>
 <operation name="busquedaPorAutor">
 <input wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaPorAutorRequest" message="tns:busquedaPorAutor"/>
 <output wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaPorAutorResponse" message="tns:busquedaPorAutorResponse"/>
@@ -37,17 +45,27 @@
 <input wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaPorFechaRequest" message="tns:busquedaPorFecha"/>
 <output wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaPorFechaResponse" message="tns:busquedaPorFechaResponse"/>
 </operation>
-<operation name="busquedaTodos">
-<input wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaTodosRequest" message="tns:busquedaTodos"/>
-<output wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaTodosResponse" message="tns:busquedaTodosResponse"/>
-</operation>
-<operation name="busquedaPorTitulo">
-<input wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaPorTituloRequest" message="tns:busquedaPorTitulo"/>
-<output wsam:Action="http://isdcm_soap.upc.com/VideoSearchWS/busquedaPorTituloResponse" message="tns:busquedaPorTituloResponse"/>
-</operation>
 </portType>
 <binding name="VideoSearchWSPortBinding" type="tns:VideoSearchWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="busquedaPorTitulo">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="busquedaTodos">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="busquedaPorAutor">
 <soap:operation soapAction=""/>
 <input>
@@ -58,24 +76,6 @@
 </output>
 </operation>
 <operation name="busquedaPorFecha">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="busquedaTodos">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="busquedaPorTitulo">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
