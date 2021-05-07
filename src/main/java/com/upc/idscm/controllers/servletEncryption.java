@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -75,6 +76,8 @@ public class servletEncryption extends HttpServlet {
                         encryptDocument(storedPath);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        response.sendRedirect(Pages.ERROR);
+                        return;
                     }
                     break;
                 }
@@ -88,6 +91,8 @@ public class servletEncryption extends HttpServlet {
                         store(encryptXML(doc), targetPath);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        response.sendRedirect(Pages.ERROR);
+                        return;
                     }
                     break;
                 }
@@ -99,6 +104,8 @@ public class servletEncryption extends HttpServlet {
                         decryptDocument(storedPath);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        response.sendRedirect(Pages.ERROR);
+                        return;
                     }
                     break;
                 }
@@ -112,10 +119,13 @@ public class servletEncryption extends HttpServlet {
                         store(decryptXML(doc), targetPath);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        response.sendRedirect(Pages.ERROR);
+                        return;
                     }
                     break;
                 }
             }
+            response.sendRedirect(Pages.ENCRYPTION_COMPLETED);
         }
     }
 
@@ -127,6 +137,9 @@ public class servletEncryption extends HttpServlet {
     private String storeFile(HttpServletRequest request, String fileName) throws IOException, ServletException {
         Part filePart = request.getPart("file");
         
+        File directory = new File(UPLOAD_PATH);
+        if (!directory.exists()) directory.mkdir();
+ 
         String path = UPLOAD_PATH + File.separator + fileName;
         
         OutputStream out = new FileOutputStream(new File(path));

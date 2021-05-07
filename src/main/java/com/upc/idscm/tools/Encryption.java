@@ -56,7 +56,10 @@ public class Encryption {
     public static Document readDocument(String path) throws ParserConfigurationException, SAXException, IOException {
         File file = new File(path);  
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();   
+        
+        //Importante, sin esto no desencripta
         dbf.setNamespaceAware(true);
+        
         DocumentBuilder db = dbf.newDocumentBuilder();  
         Document doc = db.parse(file);
         
@@ -69,8 +72,7 @@ public class Encryption {
         XMLCipher keyCipher = XMLCipher.getInstance(XMLCipher.AES_128);
         keyCipher.init(XMLCipher.ENCRYPT_MODE, getSecretKey());
         
-        boolean encryptContentsOnly = false;
-        Document encrypted = keyCipher.doFinal(doc, doc.getDocumentElement(), encryptContentsOnly);
+        Document encrypted = keyCipher.doFinal(doc, doc.getDocumentElement(), false);
 
         return toXML(encrypted);
     }
@@ -94,7 +96,7 @@ public class Encryption {
     
     public static void encryptDocument(String path) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
         SecretKey key = getSecretKey();
-        Cipher cipher = Cipher.getInstance(XMLCipher.AES_128);
+        Cipher cipher = Cipher.getInstance("AES");
 
         File original = new File(path);
         byte[] bytes = FileUtils.readFileToByteArray(original);
@@ -106,7 +108,7 @@ public class Encryption {
     
     public static void decryptDocument(String path) throws NoSuchAlgorithmException, IOException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         SecretKey key = getSecretKey();
-        Cipher cipher = Cipher.getInstance(XMLCipher.AES_128);
+        Cipher cipher = Cipher.getInstance("AES");
 
         byte[] bytes = FileUtils.readFileToByteArray(new File(path));
         cipher.init(Cipher.DECRYPT_MODE, key);

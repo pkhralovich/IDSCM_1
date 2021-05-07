@@ -9,4 +9,6 @@ public class Pages {
     public static final String NOT_FOUND = "unhandled_error.jsp";
     public static final String SEARCH_VIDEO = "busqueda.jsp";
     public static final String ENCRYPTION = "encryption.jsp";
+    public static final String ENCRYPTION_COMPLETED = "encryptionCompletado.jsp";
+    public static final String ERROR = "unhandled_error.jsp";
 }
