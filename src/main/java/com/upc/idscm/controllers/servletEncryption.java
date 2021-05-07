@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
 
 @WebServlet(name = "servletEncryption", urlPatterns = {"/encryptXML", "/encryptDOC", "/decryptXML", "/decryptDOC", "/encryption"})
@@ -70,10 +71,12 @@ public class servletEncryption extends HttpServlet {
             switch (request.getServletPath()) {
                 case ACTIONS.ENCRYPT_DOC: {
                     try {
-                        String filename = getFilename(request);
+                        String name = getFilename(request);
+                        String extension = FilenameUtils.getExtension(name);
+                        String filename = name.replaceFirst("[.][^.]+$", "");
                         String storedPath = storeFile(request, filename);
 
-                        encryptDocument(storedPath);
+                        encryptDocument(storedPath, extension);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                         response.sendRedirect(Pages.ERROR);
@@ -83,9 +86,11 @@ public class servletEncryption extends HttpServlet {
                 }
                 case ACTIONS.ENCRYPT_XML: {
                     try {
-                        String filename = getFilename(request);
+                        String name = getFilename(request);
+                        String extension = FilenameUtils.getExtension(name);
+                        String filename = name.replaceFirst("[.][^.]+$", "");
                         String storedPath = storeFile(request, filename);
-                        String targetPath = storedPath + "_encrypted";
+                        String targetPath = storedPath + "_encrypted."+extension;
 
                         Document doc = readDocument(storedPath);
                         store(encryptXML(doc), targetPath);
@@ -98,10 +103,12 @@ public class servletEncryption extends HttpServlet {
                 }
                 case ACTIONS.DECRYPT_DOC: {
                     try {
-                        String filename = getFilename(request);
+                        String name = getFilename(request);
+                        String extension = FilenameUtils.getExtension(name);
+                        String filename = name.replaceFirst("[.][^.]+$", "");
                         String storedPath = storeFile(request, filename);
 
-                        decryptDocument(storedPath);
+                        decryptDocument(storedPath, extension);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                         response.sendRedirect(Pages.ERROR);
@@ -111,9 +118,11 @@ public class servletEncryption extends HttpServlet {
                 }
                 case ACTIONS.DECRYPT_XML: {
                     try {
-                        String filename = getFilename(request);
+                        String name = getFilename(request);
+                        String extension = FilenameUtils.getExtension(name);
+                        String filename = name.replaceFirst("[.][^.]+$", "");
                         String storedPath = storeFile(request, filename);
-                        String targetPath = storedPath + "_decrypted";
+                        String targetPath = storedPath + "_decrypted." + extension;
 
                         Document doc = readDocument(storedPath);
                         store(decryptXML(doc), targetPath);

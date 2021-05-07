@@ -94,7 +94,7 @@ public class Encryption {
         }
     }
     
-    public static void encryptDocument(String path) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
+    public static void encryptDocument(String path, String extension) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
         SecretKey key = getSecretKey();
         Cipher cipher = Cipher.getInstance("AES");
 
@@ -103,10 +103,10 @@ public class Encryption {
         cipher.init(Cipher.ENCRYPT_MODE, key); 
 
         byte[] encryptedData = cipher.doFinal(bytes);
-        FileUtils.writeByteArrayToFile(new File(path+"_encrypted"), encryptedData);
+        FileUtils.writeByteArrayToFile(new File(path+"_encrypted."+ extension), encryptedData);
     }
     
-    public static void decryptDocument(String path) throws NoSuchAlgorithmException, IOException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+    public static void decryptDocument(String path, String extension) throws NoSuchAlgorithmException, IOException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         SecretKey key = getSecretKey();
         Cipher cipher = Cipher.getInstance("AES");
 
@@ -114,7 +114,7 @@ public class Encryption {
         cipher.init(Cipher.DECRYPT_MODE, key);
         
         byte[] encryptedData = cipher.doFinal(bytes);
-        FileUtils.writeByteArrayToFile(new File(path+"_decrypted"), encryptedData);
+        FileUtils.writeByteArrayToFile(new File(path+"_decrypted." + extension), encryptedData);
     }
    
     public static String toXML(Document doc) {
