@@ -79,6 +79,7 @@
                             <button class="btn btn--radius-2 btn--blue m-b-15" type="submit" form="logout">Cerrar sesión</button>
                             <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/busqueda'">Filtrar Videos</button>
                             <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/registroVid'">Añadir vídeo</button>
+                            <button class="btn btn--radius-2 btn--blue m-b-15" onclick="location.href = '<%= request.getContextPath() %>/encryption'">Encriptación</button>
                             
                             <form id="logout" action="<%= request.getContextPath() %>/logout" method="POST"/>
                         </div>
