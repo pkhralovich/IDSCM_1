@@ -8,4 +8,5 @@ public class Pages {
     public static final String NEW_VIDEO = "registroVid.jsp";
     public static final String NOT_FOUND = "unhandled_error.jsp";
     public static final String SEARCH_VIDEO = "busqueda.jsp";
+    public static final String ENCRYPTION = "encryption.jsp";
 }
