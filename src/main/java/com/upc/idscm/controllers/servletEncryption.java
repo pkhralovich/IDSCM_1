@@ -74,7 +74,7 @@ public class servletEncryption extends HttpServlet {
                         String name = getFilename(request);
                         String extension = FilenameUtils.getExtension(name);
                         String filename = name.replaceFirst("[.][^.]+$", "");
-                        String storedPath = storeFile(request, filename);
+                        String storedPath = storeFile(request, filename, extension);
 
                         encryptDocument(storedPath, extension);
                     } catch (Exception e) {
@@ -89,10 +89,10 @@ public class servletEncryption extends HttpServlet {
                         String name = getFilename(request);
                         String extension = FilenameUtils.getExtension(name);
                         String filename = name.replaceFirst("[.][^.]+$", "");
-                        String storedPath = storeFile(request, filename);
+                        String storedPath = storeFile(request, filename, extension);
                         String targetPath = storedPath + "_encrypted."+extension;
 
-                        Document doc = readDocument(storedPath);
+                        Document doc = readDocument(storedPath+"_original."+extension);
                         store(encryptXML(doc), targetPath);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -106,7 +106,7 @@ public class servletEncryption extends HttpServlet {
                         String name = getFilename(request);
                         String extension = FilenameUtils.getExtension(name);
                         String filename = name.replaceFirst("[.][^.]+$", "");
-                        String storedPath = storeFile(request, filename);
+                        String storedPath = storeFile(request, filename, extension);
 
                         decryptDocument(storedPath, extension);
                     } catch (Exception e) {
@@ -121,10 +121,10 @@ public class servletEncryption extends HttpServlet {
                         String name = getFilename(request);
                         String extension = FilenameUtils.getExtension(name);
                         String filename = name.replaceFirst("[.][^.]+$", "");
-                        String storedPath = storeFile(request, filename);
+                        String storedPath = storeFile(request, filename, extension);
                         String targetPath = storedPath + "_decrypted." + extension;
 
-                        Document doc = readDocument(storedPath);
+                        Document doc = readDocument(storedPath+"_original."+extension);
                         store(decryptXML(doc), targetPath);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -143,7 +143,7 @@ public class servletEncryption extends HttpServlet {
         return Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
     }
     
-    private String storeFile(HttpServletRequest request, String fileName) throws IOException, ServletException {
+    private String storeFile(HttpServletRequest request, String fileName, String ext) throws IOException, ServletException {
         Part filePart = request.getPart("file");
         
         File directory = new File(UPLOAD_PATH);
@@ -151,7 +151,9 @@ public class servletEncryption extends HttpServlet {
  
         String path = UPLOAD_PATH + File.separator + fileName;
         
-        OutputStream out = new FileOutputStream(new File(path));
+        String complete_path = path + "_original." + ext;
+        
+        OutputStream out = new FileOutputStream(new File(complete_path));
         InputStream filecontent = filePart.getInputStream();
 
         int read = 0;

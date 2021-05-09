@@ -98,7 +98,7 @@ public class Encryption {
         SecretKey key = getSecretKey();
         Cipher cipher = Cipher.getInstance("AES");
 
-        File original = new File(path);
+        File original = new File(path+"_original."+extension);
         byte[] bytes = FileUtils.readFileToByteArray(original);
         cipher.init(Cipher.ENCRYPT_MODE, key); 
 
@@ -110,7 +110,7 @@ public class Encryption {
         SecretKey key = getSecretKey();
         Cipher cipher = Cipher.getInstance("AES");
 
-        byte[] bytes = FileUtils.readFileToByteArray(new File(path));
+        byte[] bytes = FileUtils.readFileToByteArray(new File(path+"_original."+extension));
         cipher.init(Cipher.DECRYPT_MODE, key);
         
         byte[] encryptedData = cipher.doFinal(bytes);
