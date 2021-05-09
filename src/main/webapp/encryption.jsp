@@ -26,7 +26,7 @@
         <div class="wrapper wrapper--w680 wrapper-video">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title">Nuevo vídeo</h2>
+                    <h2 class="title">Encriptación de xml y archivos</h2>
                     <form id="form" method="POST" enctype="multipart/form-data">
                         <div class="row row-space">
                             <div class="input-group">
@@ -49,6 +49,9 @@
                         <div class="p-t-15">
                             <button class="btn btn--radius-2 btn--blue m-b-15" formaction="<%= request.getContextPath() %>/encryptDOC">Encriptar</button>
                             <button class="btn btn--radius-2 btn--blue m-b-15" formaction="<%= request.getContextPath() %>/decryptDOC">Desencriptar</button>
+                        </div>
+                        <div class="p-t-15">
+                            <button class="btn btn--radius-2 btn--blue m-b-15" formaction="<%= request.getContextPath() %>/listadoVid.jsp">Listado de Videos</button>
                         </div>
                     </form>
                 </div>
